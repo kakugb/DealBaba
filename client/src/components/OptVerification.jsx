@@ -1,0 +1,36 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const EmailVerification = ({ userId }) => {
+  const [verificationCode, setVerificationCode] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleVerification = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/auth/verify', {
+        userId,
+        verificationCode,
+      });
+
+      setMessage(response.data.message);  // Display verification success message
+    } catch (error) {
+      setMessage(error.response.data.message);  // Display error message
+    }
+  };
+
+  return (
+    <div>
+      <h2>Verify Your Email</h2>
+      <input
+        type="text"
+        placeholder="Enter verification code"
+        value={verificationCode}
+        onChange={(e) => setVerificationCode(e.target.value)}
+      />
+      <button onClick={handleVerification}>Verify</button>
+      {message && <p>{message}</p>}
+    </div>
+  );
+};
+
+export default EmailVerification;

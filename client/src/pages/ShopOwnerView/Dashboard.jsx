@@ -1,0 +1,125 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+function Dashboard() {
+  const [discountRequests, setDiscountRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState('');
+  const [shopOwnerId, setShopOwnerId] = useState('');
+
+  useEffect(() => {
+    // Get user info from localStorage and set the userId
+    const users = localStorage.getItem('user');
+    const user = JSON.parse(users);
+
+    if (user?.id) {
+      setUserId(user.id);
+    } else {
+      console.error('User ID not found in localStorage');
+      setLoading(false); // Stop loading if no userId
+    }
+  }, []); // Runs only once when the component mounts
+
+  useEffect(() => {
+    if (!userId) return; // Wait until userId is set before fetching
+
+    const fetchDiscountRequests = async () => {
+      setLoading(true); // Set loading to true before fetching
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/deals/discountRequests?userId=${userId}`
+        );
+
+        if (response.data && response.data.discountRequests) {
+          setDiscountRequests(response.data.discountRequests);
+        }
+      } catch (error) {
+        console.error('Error fetching discount requests:', error);
+      } finally {
+        setLoading(false); // Ensure loading is set to false after fetch
+      }
+    };
+
+    fetchDiscountRequests();
+  }, [userId]); // Fetch discount requests whenever userId changes
+
+  const handleAction = async (id, userId) => {
+    try { 
+     
+      const response = await axios.put(
+        `http://localhost:5000/api/deals/approvedDiscount/${id}`,
+        { shopOwnerId: userId } // Send shopOwnerId as the userId of the current request
+      );
+
+      if (response.status === 200) {
+        console.log('Deal approved successfully');
+        // Refetch the discount requests to update the UI
+        const fetchDiscountRequests = async () => {
+          try {
+            const response = await axios.get(
+              `http://localhost:5000/api/deals/discountRequests?userId=${userId}`
+            );
+            if (response.data && response.data.discountRequests) {
+              setDiscountRequests(response.data.discountRequests);
+            }
+          } catch (error) {
+            console.error('Error refetching discount requests:', error);
+          }
+        };
+        fetchDiscountRequests();
+      } else {
+        console.error('Error approving deal:', response.data);
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="pt-20">
+      <h2 className="text-4xl font-bold  text-rose-700 text-center mb-10">Discount Requests Dashboard</h2>
+
+      {/* Table */}
+      <div className="overflow-x-auto shadow-md rounded-lg mx-auto w-10/12">
+        <table className="min-w-full bg-white table-auto">
+          <thead>
+            <tr className="bg-gray-100 text-left">
+              <th className="px-4 py-2 border-b">Deal Name</th>
+              <th className="px-4 py-2 border-b">Customer Name</th>
+              <th className="px-4 py-2 border-b">Phone Number</th>
+              <th className="px-4 py-2 border-b">Is Verified</th>
+              <th className="px-4 py-2 border-b">Is Approved</th>
+              <th className="px-4 py-2 border-b">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* Map over the discountRequests array and display the rows */}
+            {discountRequests.map((request) => (
+              <tr key={request.id}>
+                <td className="px-4 py-2 border-b">{request.Deal.dealName}</td>
+                <td className="px-4 py-2 border-b">{request.User.name}</td>
+                <td className="px-4 py-2 border-b">{request.User.phoneNumber}</td>
+                <td className="px-4 py-2 border-b">{request.User.isVerified ? "Yes" : "No"}</td>
+                <td className="px-4 py-2 border-b">{request.isApproved ? "Approved" : "Pending"}</td>
+                <td className="px-4 py-2 border-b">
+                  <button 
+                    onClick={() => handleAction(request.id, request.Deal.userId)} 
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  >
+                    Approved
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+export default Dashboard;
