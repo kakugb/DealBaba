@@ -12,9 +12,9 @@ const EmailVerification = ({ userId }) => {
         verificationCode,
       });
 
-      setMessage(response.data.message);  // Display verification success message
+      setMessage(response.data.message);  
     } catch (error) {
-      setMessage(error.response.data.message);  // Display error message
+      setMessage(error.response.data.message); 
     }
   };
 

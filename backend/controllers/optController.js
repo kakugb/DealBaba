@@ -77,7 +77,7 @@ if (Date.now() > expirationTimestamp) {
 }
    
     if (String(otp) === String(user[type === 'email' ? 'emailOtp' : 'phoneOtp'])) {
-      console.log("type",type)
+   
       if (type === 'email') {
         user.isEmailVerified = true;
       } else if (type === 'phone') {
@@ -86,7 +86,7 @@ if (Date.now() > expirationTimestamp) {
 
       user.isVerified = user.isEmailVerified && user.isPhoneVerified;
       await user.save();
-    console.log("user is verified",user.isVerified)
+  
       if (user.isVerified && user.role==='customer') {
         
         await VerifiedUsers.create({
@@ -121,11 +121,9 @@ if (Date.now() > expirationTimestamp) {
 
 exports.verifyOtps = async (req, res) => {
   let { otpEmail, otpPhone, email, phoneNumber } = req.body;
-
-  // Ensure the phone number starts with '+' and remove spaces
-  phoneNumber = phoneNumber.replace(/\s+/g, ''); // Remove spaces
+  phoneNumber = phoneNumber.replace(/\s+/g, ''); 
   if (!phoneNumber.startsWith('+')) {
-    phoneNumber = '+' + phoneNumber; // Add '+' if missing
+    phoneNumber = '+' + phoneNumber; 
   }
 
   
@@ -133,8 +131,8 @@ exports.verifyOtps = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        email: email.trim(),       // Trim email for extra spaces
-        phoneNumber: phoneNumber   // Use sanitized phone number
+        email: email.trim(),       
+        phoneNumber: phoneNumber   
       }
     });
 
@@ -144,7 +142,6 @@ exports.verifyOtps = async (req, res) => {
       return res.status(400).json({ message: 'User not found' });
     }
 
-    // Convert OTP values to numbers for comparison
     otpEmail = parseInt(otpEmail, 10);
     otpPhone = parseInt(otpPhone, 10);
 
@@ -154,7 +151,7 @@ exports.verifyOtps = async (req, res) => {
     
 
     if (isEmailOtpValid && isPhoneOtpValid) {
-      // OTPs are valid, update the user as verified
+      
       user.isEmailVerified = true;
       user.isPhoneVerified = true;
       user.isVerified = true;
@@ -174,7 +171,7 @@ exports.verifyOtps = async (req, res) => {
 
       return res.json({ message: 'Both OTPs verified successfully', isVerified: true });
     } else {
-      // OTP validation failed
+    
       return res.status(400).json({ message: 'Invalid OTP(s)' });
     }
   } catch (error) {
@@ -186,12 +183,11 @@ exports.verifyOtps = async (req, res) => {
 
 
 
-      // verify user qr send by customer from dashboard and check in verified user
 
       exports.verifyUser = async (req, res) => {
         try {
           const { name, email } = req.body;
-          const loggedInUserEmail = req.User?.email; // Use optional chaining to avoid errors if req.User is undefined
+          const loggedInUserEmail = req.User?.email; 
           console.log(name,loggedInUserEmail,email)
           
           if (!name || !email) {
@@ -217,7 +213,7 @@ exports.verifyOtps = async (req, res) => {
           console.error("Error verifying user:", error);
           return res.status(500).json({
             message: "Internal server error.",
-            error: error.message, // Include the error message for debugging
+            error: error.message, 
           });
         }
         

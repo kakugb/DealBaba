@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]); // For filtered users based on role
+  const [filteredUsers, setFilteredUsers] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(7);
-  const [selectedRole, setSelectedRole] = useState(""); // For role filter
+  const [selectedRole, setSelectedRole] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function Dashboard() {
       try {
         const response = await axios.get("http://localhost:5000/api/users/getAllUser");
         setUsers(response.data.users);
-        setFilteredUsers(response.data.users); // Set initial users as filtered
+        setFilteredUsers(response.data.users); 
         setLoading(false);
       } catch (err) {
         console.error("Error fetching users:", err);
@@ -36,7 +36,7 @@ function Dashboard() {
       setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
       setFilteredUsers((prevUsers) =>
         prevUsers.filter((user) => user.userId !== userId)
-      ); // Remove from filtered users as well
+      ); 
     } catch (error) {
       console.error("Error deleting user:", error);
       setError("Failed to delete user.");
@@ -52,12 +52,12 @@ function Dashboard() {
     if (role) {
       setFilteredUsers(users.filter((user) => user.role === role));
     } else {
-      setFilteredUsers(users); // Show all users if no filter
+      setFilteredUsers(users); 
     }
-    setCurrentPage(1); // Reset to first page when filter changes
+    setCurrentPage(1); 
   };
 
-  // Pagination logic
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -85,7 +85,7 @@ function Dashboard() {
           <main className="flex-1 overflow-x-hidden overflow-y-auto md:pl-32">
             <div className="md:ml-6 mt-2">
               <div className="w-full h-12 flex justify-between md:pr-3 pr-3 mt-7">
-                {/* Role Filter Dropdown */}
+              
                 <select
                   value={selectedRole}
                   onChange={(e) => filterByRole(e.target.value)}

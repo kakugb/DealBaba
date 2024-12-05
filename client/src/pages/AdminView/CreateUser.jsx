@@ -8,9 +8,9 @@ const CreateUser = () => {
     name: "",
     email: "",
     password: "",
-    role: "", // Updated to use a select dropdown
+    role: "", 
     phoneNumber: "",
-    gender: "", // Updated to use a select dropdown
+    gender: "", 
   });
 
   const [successMessage, setSuccessMessage] = useState("");
@@ -53,9 +53,9 @@ const CreateUser = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100 overflow-x-auto pt-20">
 
-       {/* Bottom Buttons */}
+    
        <div className="fixed top-20 left-4 flex justify-between px-4">
-        {/* Go Back Button */}
+      
         <button
           onClick={() => navigate(-1)}
           className=" bg-rose-700 p-3 text-white py-2 rounded-md hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -74,7 +74,7 @@ const CreateUser = () => {
           <p className="text-red-600 text-center font-medium mb-4">{errorMessage}</p>
         )}
         <form onSubmit={handleSubmit}>
-          {/* Name */}
+         
           <div className="mb-4">
             <label className="block text-gray-600 font-medium mb-1">Name</label>
             <input
@@ -88,8 +88,7 @@ const CreateUser = () => {
             />
           </div>
 
-          {/* Email */}
-          <div className="mb-4">
+           <div className="mb-4">
             <label className="block text-gray-600 font-medium mb-1">Email</label>
             <input
               type="email"
@@ -102,7 +101,7 @@ const CreateUser = () => {
             />
           </div>
 
-          {/* Password */}
+        
           <div className="mb-4">
             <label className="block text-gray-600 font-medium mb-1">Password</label>
             <input
@@ -116,7 +115,7 @@ const CreateUser = () => {
             />
           </div>
 
-          {/* Phone Number */}
+         
           <div className="mb-4">
             <label className="block text-gray-600 font-medium mb-1">Phone Number</label>
             <input
@@ -130,7 +129,6 @@ const CreateUser = () => {
             />
           </div>
 
-          {/* Gender */}
           <div className="mb-4">
             <label className="block text-gray-600 font-medium mb-1">Gender</label>
             <select
@@ -148,7 +146,6 @@ const CreateUser = () => {
             </select>
           </div>
 
-          {/* Role */}
           <div className="mb-4">
             <label className="block text-gray-600 font-medium mb-1">Role</label>
             <select
@@ -166,7 +163,6 @@ const CreateUser = () => {
             </select>
           </div>
 
-          {/* Submit Button */}
           <div className="text-center">
             <button
               type="submit"

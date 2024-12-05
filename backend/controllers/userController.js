@@ -37,7 +37,7 @@ const checkIfUserExists = async (email, phoneNumber) => {
       const phoneOtp = generateOtp();
   
       const otpExpirationTime = new Date(Date.now() + 1 * 60 * 60 * 1000); 
-      const formattedOtpExpirationTime = otpExpirationTime.toISOString().slice(0, 19).replace('T', ' '); // Format as 'YYYY-MM-DD HH:MM:SS'
+      const formattedOtpExpirationTime = otpExpirationTime.toISOString().slice(0, 19).replace('T', ' '); 
   
       const hashedPassword = await bcrypt.hash(password, 10);
   
@@ -196,27 +196,22 @@ const deleteUser = async (req, res) => {
 
 
 const getUsersByRole = async (req, res) => {
-  const { role } = req.query; // Ensure role is sent as a query parameter
-  console.log('Received query parameter "role":', role); // Log the value of role from the query
+  const { role } = req.query; 
 
   try {
     if (!role) {
       return res.status(400).json({ message: 'Role is required as a query parameter' });
     }
 
-    // Debugging output to check the role value
-    console.log('Role from query:', role);
-
-    // Handle case where role is a valid one, you can add more roles here as needed
-    const validRoles = ['user', 'customer']; // You can add more roles here
+    
+    const validRoles = ['user', 'customer']; 
     if (!validRoles.includes(role)) {
       return res.status(400).json({ message: `Invalid role, valid roles are: ${validRoles.join(', ')}` });
     }
 
-    // Find users based on role
     const users = await User.findAll({
       attributes: ['userId', 'name', 'email', 'role', 'phoneNumber', 'gender', 'createdAt', 'updatedAt'],
-      where: { role } // Use dynamic role matching
+      where: { role } 
     });
 
     if (!users || users.length === 0) {

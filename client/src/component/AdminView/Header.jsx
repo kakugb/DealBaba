@@ -18,7 +18,8 @@ export default function Header() {
     localStorage.removeItem('token'); 
     localStorage.removeItem('user')
     localStorage.setItem('isAuthenticated', 'false');
-    
+    localStorage.setItem("qrCodeScan", "false");
+  
     dispatch(logout());
   
   }; 

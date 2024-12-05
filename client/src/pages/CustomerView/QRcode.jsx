@@ -1,18 +1,18 @@
 import React, { useRef, useEffect } from "react";
-import QrScanner from "qr-scanner"; // Assuming you are using the `qr-scanner` package
+import QrScanner from "qr-scanner"; 
 
 const QRScanner = ({ onScan }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
     const qrScanner = new QrScanner(videoRef.current, (result) => {
-      onScan(result); // Pass scanned data to the parent component
+      onScan(result); 
     });
 
-    qrScanner.start(); // Start scanning
+    qrScanner.start();
 
     return () => {
-      qrScanner.stop(); // Clean up when component unmounts
+      qrScanner.stop(); 
     };
   }, [onScan]);
 

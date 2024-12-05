@@ -9,8 +9,6 @@ const Dashboard = () => {
   const [message, setMessage] = useState("");
   const videoRef = useRef(null);
   const navigate = useNavigate();
-
-  // Access handleNavbarVisibility from Outlet context
   const { handleNavbarVisibility } = useOutletContext();
 
   useEffect(() => {
@@ -45,11 +43,9 @@ const Dashboard = () => {
       console.log("Raw Scanned Data:", data);
   
       let parsedData;
-      // Check if the QR code data is in JSON format
       if (data.trim().startsWith("{") && data.trim().endsWith("}")) {
         parsedData = JSON.parse(data);
       } else {
-        // If not, match user and email using a regex pattern
         const matches = data.match(/User:\s*(\w+),\s*Email:\s*([\w@.]+)/);
         if (matches) {
           parsedData = { user: matches[1], email: matches[2] };
@@ -58,20 +54,16 @@ const Dashboard = () => {
         }
       }
   
-      console.log("Parsed Data:", parsedData);
-  
-      // Get the token from localStorage
       const token = localStorage.getItem("token");
-      console.log("Token:", token);
-  
+   
       if (!token) {
         throw new Error("Authentication token is missing. Please log in.");
       }
   
-      // Check if the token is expired (optional but recommended)
+  
       try {
         const decodedToken = jwtDecode(token);
-        const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
+        const expirationTime = decodedToken.exp * 1000; 
         if (Date.now() >= expirationTime) {
           throw new Error("Authentication token has expired. Please log in again.");
         }
@@ -80,7 +72,7 @@ const Dashboard = () => {
         throw new Error("Invalid authentication token. Please log in again.");
       }
   
-      // Send the verification request to the backend
+   
       const response = await axios.post(
         "http://localhost:5000/api/auth/verify-user",
         { name: parsedData.user, email: parsedData.email },
@@ -91,7 +83,7 @@ const Dashboard = () => {
         }
       );
   
-      // Handle the server's response
+      
       if (response.data.isVerified) {
         setMessage("User verified successfully!");
         handleNavbarVisibility(true);
@@ -100,18 +92,17 @@ const Dashboard = () => {
         handleNavbarVisibility(false);
       }
     } catch (error) {
-      // Handle different types of errors (e.g., SyntaxError, network errors, server errors)
+      
       console.error("Error verifying QR Code data:", error);
       setMessage(error.message || "An error occurred during verification.");
       handleNavbarVisibility(false);
   
-      // Handle specific error status codes
       if (error.response && error.response.status === 403) {
         setMessage("You do not have permission to access this resource.");
       }
     }
   
-    setScanResult(data); // Save raw data for display
+    setScanResult(data); 
   };
   
 

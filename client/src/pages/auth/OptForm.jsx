@@ -8,7 +8,7 @@ const OptForm = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
-  // Retrieve email and phone number from query params
+  
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const email = params.get('email');

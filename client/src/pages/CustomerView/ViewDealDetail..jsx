@@ -8,8 +8,8 @@ function ViewDealDetail() {
   const [loading, setLoading] = useState(true); 
   const navigate = useNavigate(); 
   const [userId , setUserId] = useState('');
-  const [isDiscountApproved, setIsDiscountApproved] = useState(false); // State to store isApproved status
-  const [showMobileIcons, setShowMobileIcons] = useState(false); // State to manage mobile icon dropdown
+  const [isDiscountApproved, setIsDiscountApproved] = useState(false); 
+  const [showMobileIcons, setShowMobileIcons] = useState(false);
   const [showDesktopIcons, setShowDesktopIcons] = useState(false);
   useEffect(() => {
     const fetchDeal = async () => {
@@ -20,7 +20,7 @@ function ViewDealDetail() {
       } catch (error) {
         console.error("Error fetching deal details:", error);
       } finally {
-        setLoading(false); // Stop loading after API call
+        setLoading(false); 
       }
     };
 
@@ -28,7 +28,7 @@ function ViewDealDetail() {
       try {
        
         const response = await axios.get(`http://localhost:5000/api/deals/getDiscountDealStatus?dealId=${id}`);
-        setIsDiscountApproved(response.data.isApproved); // Update the state with the discount status
+        setIsDiscountApproved(response.data.isApproved); 
       } catch (error) {
         console.error("Error fetching discount status:", error);
       }
@@ -39,7 +39,7 @@ function ViewDealDetail() {
     setUserId(userObject.id);
 
     fetchDeal();
-    fetchDiscountStatus(); // Fetch the discount status for the deal
+    fetchDiscountStatus(); 
 
   }, [id]);
 

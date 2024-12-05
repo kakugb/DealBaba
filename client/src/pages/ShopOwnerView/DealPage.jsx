@@ -94,18 +94,18 @@ function DealPage() {
         <p className="mt-2 text-lg font-semibold text-red-600">{deal.discount}% OFF</p>
       </div>
       <div className="flex justify-between items-center px-6 py-4 bg-gray-100 rounded-b-lg">
-        {/* Update Button */}
+       
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold shadow-md focus:outline-none"
-          onClick={() => handleUpdate(deal.id)}  // Pass dealId to navigate
+          onClick={() => handleUpdate(deal.id)}  
         >
           Update
         </button>
 
-        {/* Delete Button */}
+      
         <button
           className="bg-red-600 text-white px-4 py-2 rounded-md font-semibold shadow-md focus:outline-none"
-          onClick={() => deleteDeal(deal.id)}  // Pass dealId to delete
+          onClick={() => deleteDeal(deal.id)}  
         >
           Delete
         </button>

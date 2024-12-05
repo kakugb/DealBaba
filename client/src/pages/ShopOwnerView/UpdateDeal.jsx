@@ -12,17 +12,17 @@ function UpdateDeal() {
     image: null,
     description: '',
   });
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true); 
 
-  // Fetch deal details based on the dealId from the URL on the first visit
+ 
   useEffect(() => {
     console.log(id);
     axios
-      .get(`http://localhost:5000/api/deals/getById/${id}`)  // Fetch the deal by ID
+      .get(`http://localhost:5000/api/deals/getById/${id}`)  
       .then((response) => {
         console.log(response.data);
-        setDeal(response.data.deal); // Assuming the response contains the deal object
-        setLoading(false); // Set loading to false when the data is fetched
+        setDeal(response.data.deal); 
+        setLoading(false); 
       })
       .catch((error) => {
         console.error('Error fetching deal details:', error);
@@ -70,14 +70,14 @@ function UpdateDeal() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;  // Show loading text or spinner
+    return <div>Loading...</div>;  
   }
 
   return (
     <div className=" flex items-center justify-center pt-24">
-            {/* Bottom Buttons */}
+          
             <div className="fixed top-20 left-4 flex justify-between px-4">
-        {/* Go Back Button */}
+        
         <button
           onClick={() => navigate(-1)}
           className=" bg-rose-700 p-3 text-white py-2 rounded-md hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -90,7 +90,7 @@ function UpdateDeal() {
       <div className="bg-white  rounded-lg p-4 w-full max-w-md shadow-md shadow-slate-700">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Update Deal</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Shop Name */}
+        
           <div>
             <label htmlFor="shopName" className="block text-sm font-medium text-gray-700">
               Shop Name
@@ -107,7 +107,7 @@ function UpdateDeal() {
             />
           </div>
 
-          {/* Deal Name */}
+        
           <div>
             <label htmlFor="dealName" className="block text-sm font-medium text-gray-700">
               Deal Name
@@ -143,7 +143,7 @@ function UpdateDeal() {
             />
           </div>
 
-          {/* Image */}
+         
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700">
               Image
@@ -158,7 +158,7 @@ function UpdateDeal() {
             />
           </div>
 
-          {/* Description */}
+         
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
               Description
@@ -175,8 +175,7 @@ function UpdateDeal() {
             ></textarea>
           </div>
 
-          {/* Submit Button */}
-          <div>
+         <div>
             <button
               type="submit"
               className="w-full bg-red-700 hover:bg-red-500 text-white font-semibold py-2 rounded-md"

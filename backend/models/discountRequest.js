@@ -13,11 +13,11 @@ const DiscountRequest = sequelize.define('DiscountRequest', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  dealId: { // This will store the deal ID which the customer is requesting a discount for
+  dealId: { 
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  isApproved: { // Flag to check if the shop owner has approved the discount
+  isApproved: { 
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
@@ -25,8 +25,8 @@ const DiscountRequest = sequelize.define('DiscountRequest', {
   timestamps: true,
 });
 
-// Defining relationships
-DiscountRequest.belongsTo(Deal, { foreignKey: 'dealId' }); // DiscountRequest belongs to Deal (dealId)
-DiscountRequest.belongsTo(User, { foreignKey: 'userId' }); // DiscountRequest belongs to User (customerId)
+
+DiscountRequest.belongsTo(Deal, { foreignKey: 'dealId' }); 
+DiscountRequest.belongsTo(User, { foreignKey: 'userId' }); 
 
 module.exports = DiscountRequest;

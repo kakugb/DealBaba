@@ -14,13 +14,13 @@ function Login() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Check if the user is already authenticated from localStorage
+   
     const storedIsAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
     if (storedIsAuthenticated && storedUser) {
       dispatch(login(storedUser));
-      navigate(`/${storedUser.role}/dashboard`);  // Redirect to the correct dashboard
+      navigate(`/${storedUser.role}/dashboard`);  
     }
   }, [dispatch, navigate]);
 
@@ -38,15 +38,12 @@ function Login() {
 
       const { user, token } = response.data;
 
-      // Store user info and token in localStorage
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
 
-      // Dispatch the login action to store user info in Redux
       dispatch(login(user));
 
-      // Redirect to role-based dashboard
       navigate(`/${user.role}/dashboard`);
     } catch (error) {
       setLoading(false);
@@ -112,14 +109,7 @@ function Login() {
           </button>
         </form>
 
-        {/* <div className="flex items-center justify-end mt-8">
-            <Link
-              to="/otp"
-              className="text-sm hover:underline text-indigo-500 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-end font-bold"
-            >
-              Verify phone Number & Email Address
-            </Link>
-          </div> */}
+      
       </div>
       
     </div>

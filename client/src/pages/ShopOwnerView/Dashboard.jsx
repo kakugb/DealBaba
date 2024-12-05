@@ -8,7 +8,7 @@ function Dashboard() {
   const [shopOwnerId, setShopOwnerId] = useState('');
 
   useEffect(() => {
-    // Get user info from localStorage and set the userId
+    
     const users = localStorage.getItem('user');
     const user = JSON.parse(users);
 
@@ -16,15 +16,15 @@ function Dashboard() {
       setUserId(user.id);
     } else {
       console.error('User ID not found in localStorage');
-      setLoading(false); // Stop loading if no userId
+      setLoading(false); 
     }
-  }, []); // Runs only once when the component mounts
+  }, []); 
 
   useEffect(() => {
-    if (!userId) return; // Wait until userId is set before fetching
+    if (!userId) return; 
 
     const fetchDiscountRequests = async () => {
-      setLoading(true); // Set loading to true before fetching
+      setLoading(true); 
       try {
         const response = await axios.get(
           `http://localhost:5000/api/deals/discountRequests?userId=${userId}`
@@ -36,24 +36,24 @@ function Dashboard() {
       } catch (error) {
         console.error('Error fetching discount requests:', error);
       } finally {
-        setLoading(false); // Ensure loading is set to false after fetch
+        setLoading(false); 
       }
     };
 
     fetchDiscountRequests();
-  }, [userId]); // Fetch discount requests whenever userId changes
+  }, [userId]); 
 
   const handleAction = async (id, userId) => {
     try { 
      
       const response = await axios.put(
         `http://localhost:5000/api/deals/approvedDiscount/${id}`,
-        { shopOwnerId: userId } // Send shopOwnerId as the userId of the current request
+        { shopOwnerId: userId } 
       );
 
       if (response.status === 200) {
         console.log('Deal approved successfully');
-        // Refetch the discount requests to update the UI
+      
         const fetchDiscountRequests = async () => {
           try {
             const response = await axios.get(
@@ -83,7 +83,7 @@ function Dashboard() {
     <div className="pt-20">
       <h2 className="text-4xl font-bold  text-rose-700 text-center mb-10">Discount Requests Dashboard</h2>
 
-      {/* Table */}
+  
       <div className="overflow-x-auto shadow-md rounded-lg mx-auto w-10/12">
         <table className="min-w-full bg-white table-auto">
           <thead>
@@ -97,7 +97,7 @@ function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {/* Map over the discountRequests array and display the rows */}
+           
             {discountRequests.map((request) => (
               <tr key={request.id}>
                 <td className="px-4 py-2 border-b">{request.Deal.dealName}</td>

@@ -59,10 +59,10 @@ exports.getFileById = async (req, res) => {
 
 
 exports.getFileByuserId = async (req, res) => {
-  const { userId } = req.params; // Destructure userId from params
+  const { userId } = req.params; 
 
   try {
-    // Assuming you want to find deals related to the userId
+    
     const deals = await Deal.findAll({ where: { userId } }); 
     if (deals.length === 0) {
       return res.status(404).json({ message: 'No deals found for this user' });
@@ -183,8 +183,6 @@ exports.requestDiscount = async (req, res) => {
     if (existingRequest) {
       return res.status(400).json({ message: 'You have already requested a discount for this deal.' });
     }
-    console.log(existingRequest)
-    // Create a new discount request
     const discountRequest = await DiscountRequest.create({
       userId,
       dealId
@@ -204,17 +202,17 @@ exports.requestDiscount = async (req, res) => {
 
 
 exports.getDiscountRequests = async (req, res) => {
-  const { userId } = req.query; // Retrieve userId from query parameters
+  const { userId } = req.query;
 
   if (!userId) {
     return res.status(400).json({ message: 'UserId is required' });
   }
 
   try {
-    // Find all deals created by the shopowner
+   
     const deals = await Deal.findAll({
       where: {
-        userId: userId // Match the userId (shopowner) to find deals created by this user
+        userId: userId 
       }
     });
 
@@ -222,36 +220,33 @@ exports.getDiscountRequests = async (req, res) => {
       return res.status(404).json({ message: 'No deals found for this shopowner' });
     }
 
-    // Get the IDs of all the deals created by the shopowner
     const dealIds = deals.map(deal => deal.id);
 
-    // Find all discount requests where the dealId is one of the deals created by the shopowner
     const discountRequests = await DiscountRequest.findAll({
       where: {
         dealId: {
-          [Op.in]: dealIds // Match the dealId with the IDs of deals created by the shopowner
+          [Op.in]: dealIds 
         }
       },
       include: [
         {
           model: Deal,
           required: true,
-          attributes: ['dealName','userId'], // Only select the dealName from the Deal model
+          attributes: ['dealName','userId'], 
         },
         {
           model: User,
           required: true,
-          attributes: ['name', 'phoneNumber', 'isVerified'], // Only select the necessary fields from the User model
+          attributes: ['name', 'phoneNumber', 'isVerified'], 
         }
       ],
-      attributes: ['id', 'isApproved'], // Only select the necessary fields from the DiscountRequest model
+      attributes: ['id', 'isApproved'], 
     });
 
     if (discountRequests.length === 0) {
       return res.status(404).json({ message: 'No discount requests found for the shopowner\'s deals' });
     }
 
-    // Return the discount requests
     res.status(200).json({
       message: 'Discount requests retrieved successfully',
       discountRequests
@@ -264,20 +259,19 @@ exports.getDiscountRequests = async (req, res) => {
 };
 
 
-// controllers/discountController.js
+
 
 exports.approveDiscount = async (req, res) => {
-  const { requestId } = req.params; // Get the discount request ID from the URL parameter
-  const { shopOwnerId } = req.body; // Get the shopOwnerId from the request body
+  const { requestId } = req.params; 
+  const { shopOwnerId } = req.body; 
 
   try {
-    // Find the discount request by its ID, including related Deal and User models
     const discountRequest = await DiscountRequest.findByPk(requestId, {
-      include: [Deal, User] // Include related Deal and User to check if the shopowner owns the deal
+      include: [Deal, User] 
     });
 
     if (!discountRequest) {
-      // If no discount request is found, return a 404 response
+     
       return res.status(404).json({ message: 'Discount request not found' });
     }
 
@@ -303,11 +297,11 @@ exports.approveDiscount = async (req, res) => {
 
 
 exports.getDiscountRequestByDealId = async (req, res) => {
-  const { dealId } = req.query; // Access 'dealId' from the query string
-  console.log('Deal ID from query:', dealId); // Log the 'dealId' to ensure it's correct
+  const { dealId } = req.query; 
+ 
 
   try {
-    // Querying directly using 'dealId'
+   
     const discountRequest = await DiscountRequest.findOne({
       where: { dealId },
     });
@@ -316,7 +310,6 @@ exports.getDiscountRequestByDealId = async (req, res) => {
       return res.status(404).json({ message: 'Discount request not found' });
     }
 
-    // Return the 'isApproved' status
     res.json({ isApproved: discountRequest.isApproved });
   } catch (error) {
     console.error('Error fetching discount request:', error);

@@ -26,7 +26,7 @@ const checkIfUserExists = async (email, phoneNumber) => {
 
 const signup = async (req, res) => {
   const { name, email, password, role, phoneNumber, gender } = req.body;
-  console.log("phone",phoneNumber)
+  
   try {
      const existingUser = await checkIfUserExists(email, phoneNumber);
    
@@ -121,7 +121,7 @@ const getUserInfo =async(req,res)=>{
     const user = await User.findByPk(req.user.userId)
     if (!user) return res.status(404).json({ message: 'User not found' });
     
-    res.json(user); // Send user data as response
+    res.json(user); 
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
