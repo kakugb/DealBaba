@@ -36,6 +36,7 @@ function DealPage() {
     }
   }, [userId]);  
   const deleteDeal = (dealId) => {
+    console.log(dealId)
     axios
       .delete(`http://localhost:5000/api/deals/delete/${dealId}`)
       .then((response) => {
@@ -50,7 +51,7 @@ function DealPage() {
 
 
   const handleUpdate = (dealId) => {
-    navigate(`/shopowner/updateDeal/${dealId}`); 
+    navigate(`/shopowner/UpdateDeal/${dealId}`); 
   };
 
   console.log(deals);

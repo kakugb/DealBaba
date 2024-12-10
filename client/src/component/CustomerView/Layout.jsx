@@ -10,12 +10,14 @@ function AdminLayout() {
   const isDashboard = location.pathname === "/customer/dashboard";
 
   useEffect(() => {
-    const qrCodeScan = localStorage.getItem("qrCodeScan");
+    if (location.pathname === "/customer/dashboard") {
+      const qrCodeScan = localStorage.getItem("qrCodeScan");
 
-    if (qrCodeScan === "true") {
-      navigate("/customer/allDeals");
+      if (qrCodeScan === "true") {
+        navigate("/customer/allDeals");
+      }
     }
-  }, [navigate]);
+  }, [location.pathname, navigate]);
 
 
   const handleNavbarVisibility = (isVisible) => {

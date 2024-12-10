@@ -84,7 +84,7 @@ function App() {
           <Route path="scanQR" element={<ScanQr />} />
           <Route path="dealPage" element={<DealPage />} />
           <Route path="addDeal" element={<AddDeal />} />
-          <Route path="updateDeal/:id" element={<UpdateDeal/>}/>
+          <Route path="UpdateDeal/:id" element={<UpdateDeal/>}/>
         </Route>
 
         <Route
@@ -95,7 +95,7 @@ function App() {
               user={user}
               requiredRole="customer"
             >
-              <ShoppingLayout user="karmat"/>
+              <ShoppingLayout />
             </CheckAuth>
           }
         >

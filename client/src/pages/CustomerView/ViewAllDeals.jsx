@@ -18,6 +18,12 @@ function ViewAllDeals() {
     fetchDeals();
   }, []);
 
+  const viewDealDetail = (id) => {
+    console.log(id); // Logs the id for debugging
+    navigate(`/customer/viewDetail/${id}`); // Navigates to the specified route with the id
+  };
+  
+  
   return (
     <div className="p-24">
   <h1 className="text-4xl font-bold mb-8 text-center text-rose-700">All Deals</h1>
@@ -25,6 +31,7 @@ function ViewAllDeals() {
   {/* Grid container for cards */}
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
     {deals.map((deal) => (
+      
       <div
         key={deal.id}
         className="group relative bg-white  rounded-xl overflow-hidden transform transition-all duration-300 hover:scale-105 shadow-md shadow-slate-700"
@@ -44,7 +51,7 @@ function ViewAllDeals() {
 
           {/* View Details Button */}
           <button
-            onClick={() => navigate(`/customer/viewDetail/${deal.id}`)}
+            onClick={() => viewDealDetail(deal.id)}
             className="mt-4 w-full px-4 py-2 bg-rose-700 text-white font-semibold rounded-lg hover:bg-rose-500 transition-colors"
           >
             View Details

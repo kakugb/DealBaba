@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaWhatsapp, FaInstagram, FaLinkedin, FaFacebookF, FaEnvelope, FaTimes } from 'react-icons/fa';
+
 function ViewDealDetail() {
   const { id } = useParams(); 
   const [deal, setDeal] = useState(null);
@@ -14,7 +15,7 @@ function ViewDealDetail() {
   useEffect(() => {
     const fetchDeal = async () => {
       try {
-        console.log("Fetching deal details for ID:", id); 
+         
         const response = await axios.get(`http://localhost:5000/api/deals/deal/${id}`);
         setDeal(response.data.deal); 
       } catch (error) {
@@ -102,12 +103,13 @@ function ViewDealDetail() {
               {/* Bottom Buttons */}
        <div className="fixed top-20 left-4 flex justify-between px-4">
         {/* Go Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className=" bg-rose-700 p-3 text-white py-2 rounded-md hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-           Go Back
-        </button>
+      <button
+  type="button" // Explicitly set to button
+  onClick={() => navigate(-1)} 
+  className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700"
+>
+  Back
+</button>
 
        
       </div>

@@ -146,26 +146,32 @@ exports.updateFile = async (req, res) => {
     }
   };
     
-exports.deleteFile = async (req, res) => {
-  const { id } = req.params;
 
-  try {
-    const deal = await Deal.findByPk(id);
-    if (!deal) {
-      return res.status(404).json({ message: 'Deal not found' });
-    }
+  exports.deleteFile = async (req, res) => {
+    const { id } = req.params;
 
-    if (deal.cloudinaryId) {
-      await cloudinary.uploader.destroy(deal.cloudinaryId);
-    }
+try {
+  // Delete dependent records first (e.g., discount requests)
+  await DiscountRequest.destroy({ where: { dealId: id } });
 
-    await deal.destroy();
-
-    res.status(200).json({ message: 'Deal deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting deal', error });
+  // Now delete the deal
+  const deal = await Deal.findByPk(id);
+  if (!deal) {
+    return res.status(404).json({ message: "Deal not found" });
   }
-};
+
+  if (deal.cloudinaryId) {
+    await cloudinary.uploader.destroy(deal.cloudinaryId);
+  }
+
+  await deal.destroy();
+  res.status(200).json({ message: "Deal deleted successfully" });
+} catch (error) {
+  console.error("Error deleting deal:", error);
+  res.status(500).json({ message: "Error deleting deal", error });
+}
+  }
+  
 
   
   
