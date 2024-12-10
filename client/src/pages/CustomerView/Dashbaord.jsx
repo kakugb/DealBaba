@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import QrScanner from "qr-scanner";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import {jwtDecode} from 'jwt-decode';  
+import { jwtDecode } from "jwt-decode";
+
 const Dashboard = () => {
   const [scanResult, setScanResult] = useState("");
   const [isScanning, setIsScanning] = useState(false);
@@ -36,12 +37,10 @@ const Dashboard = () => {
     };
   }, [isScanning]);
 
- 
-
   const handleQRCodeData = async (data) => {
     try {
       console.log("Raw Scanned Data:", data);
-  
+
       let parsedData;
       if (data.trim().startsWith("{") && data.trim().endsWith("}")) {
         parsedData = JSON.parse(data);
@@ -53,17 +52,16 @@ const Dashboard = () => {
           throw new SyntaxError("Invalid QR code data format.");
         }
       }
-  
+
       const token = localStorage.getItem("token");
-   
+
       if (!token) {
         throw new Error("Authentication token is missing. Please log in.");
       }
-  
-  
+
       try {
         const decodedToken = jwtDecode(token);
-        const expirationTime = decodedToken.exp * 1000; 
+        const expirationTime = decodedToken.exp * 1000;
         if (Date.now() >= expirationTime) {
           throw new Error("Authentication token has expired. Please log in again.");
         }
@@ -71,19 +69,17 @@ const Dashboard = () => {
         console.error("Error decoding token:", e);
         throw new Error("Invalid authentication token. Please log in again.");
       }
-  
-   
+
       const response = await axios.post(
         "http://localhost:5000/api/auth/verify-user",
         { name: parsedData.user, email: parsedData.email },
         {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-  
-      
+
       if (response.data.isVerified) {
         setMessage("User verified successfully!");
         handleNavbarVisibility(true);
@@ -92,22 +88,24 @@ const Dashboard = () => {
         handleNavbarVisibility(false);
       }
     } catch (error) {
-      
       console.error("Error verifying QR Code data:", error);
       setMessage(error.message || "An error occurred during verification.");
       handleNavbarVisibility(false);
-  
+
       if (error.response && error.response.status === 403) {
         setMessage("You do not have permission to access this resource.");
       }
     }
-  
-    setScanResult(data); 
+
+    setScanResult(data);
   };
-  
 
   const startScanning = () => {
     setIsScanning(true);
+  };
+
+  const stopScanning = () => {
+    setIsScanning(false);
   };
 
   const generateQRCode = async () => {
@@ -160,6 +158,15 @@ const Dashboard = () => {
           className="mt-6 px-6 py-2 bg-rose-600 hover:bg-red-500 text-white font-semibold rounded-md"
         >
           Start Scanning
+        </button>
+      )}
+
+      {isScanning && (
+        <button
+          onClick={stopScanning}
+          className="mt-6 px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-md"
+        >
+          Stop Scanning
         </button>
       )}
 
