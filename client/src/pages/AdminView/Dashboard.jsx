@@ -96,9 +96,11 @@ function Dashboard() {
                   <option value="user">User</option>
                   {/* Add more roles here */}
                 </select>
+                <Link to="/admin/addUser">
                 <button className="w-[200px] h-10 bg-rose-600 font-semibold text-sm text-white hover:bg-rose-500 rounded-md md:mr-10">
-                  <Link to="/admin/addUser">Add Student</Link>
+                  Add Student
                 </button>
+                </Link>
 
                 
               </div>

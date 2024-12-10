@@ -46,7 +46,7 @@ const OptForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-rose-800">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Verify OTP
@@ -91,8 +91,8 @@ const OptForm = () => {
             disabled={loading}
             className={`w-full py-3 text-white rounded-lg ${
               loading
-                ? "bg-blue-300 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
+                ? "bg-rose-800 cursor-not-allowed"
+                : "bg-rose-600 hover:bg-rose-400 focus:ring-4 focus:ring-blue-300"
             }`}
           >
             {loading ? "Verifying..." : "Verify OTP"}

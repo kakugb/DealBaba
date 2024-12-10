@@ -28,9 +28,8 @@ const CreateUser = () => {
     e.preventDefault();
     setSuccessMessage("");
     setErrorMessage("");
-
+  
     try {
-     
       const response = await axios.post("http://localhost:5000/api/users", formData);
       setSuccessMessage("User created successfully!");
       setFormData({
@@ -44,9 +43,13 @@ const CreateUser = () => {
       navigate("/admin/dashboard");
     } catch (error) {
       console.error("Error creating user:", error);
-      setErrorMessage("Failed to create user. Please try again.");
+      setErrorMessage(
+        error.response?.data?.message || 
+        "An unexpected error occurred. Please try again."
+      );
     }
   };
+  
 
  
 

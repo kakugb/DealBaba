@@ -35,7 +35,7 @@ const sendEmailOtp = async (email, verificationCode,phoneNumber) => {
 function sendSmsOtp(phoneNumber, otp) {
   twilioClient.messages.create({
     body: `Your OTP for phone verification is: ${otp}`,
-    from: process.env.TWILIO_PHONE_NUMBER || "ap ka twillio number",
+    from: process.env.TWILIO_PHONE_NUMBER || `+17753477287`,
     to: phoneNumber
   }).catch((err) => {
     console.error('Error sending OTP SMS:', err);
