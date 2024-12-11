@@ -5,73 +5,104 @@ const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const PendingUsers = require('../models/pendingUsers.js');
 
-const checkIfUserExists = async (email, phoneNumber) => {
+
+  // const createUser = async (req, res) => {
+  //   const { name, email, password, role, phoneNumber, gender } = req.body;
+    
+  //   try {
+  //     const existingUser = await checkIfUserExists(email, phoneNumber);
+  
+  //     if (existingUser) {
+  //       return res.status(400).json({ message: 'Email or Phone Number already exists' });
+  //     }
+  
+    
+  //     const emailOtp = generateOtp();
+  //     const phoneOtp = generateOtp();
+  
+  //     const otpExpirationTime = new Date(Date.now() + 1 * 60 * 60 * 1000); 
+  //     const formattedOtpExpirationTime = otpExpirationTime.toISOString().slice(0, 19).replace('T', ' '); 
+  
+  //     const hashedPassword = await bcrypt.hash(password, 10);
+  
+  //     try {
+  //       const newUser = await User.create({
+  //         name,
+  //         email,
+  //         password: hashedPassword,
+  //         role,
+  //         phoneNumber,
+  //         gender,
+  //         emailOtp,
+  //         phoneOtp,
+  //         emailOtpExpiration: formattedOtpExpirationTime,  
+  //         phoneOtpExpiration: formattedOtpExpirationTime   
+  //       });
+  //       console.log(' user created Successfully:', newUser);
+  //     } catch (error) {
+  //       console.error('Error creating user:', error);
+  //       return res.status(500).json({ message: 'Server error during user creation', error: error.message });
+  //     }
+  
+  //     sendEmailOtp(email, emailOtp,phoneNumber);
+  //     sendSmsOtp(phoneNumber, phoneOtp);
+  
+  //     res.status(201).json({ message: 'User created successfully. OTPs have been sent for verification.' });
+  
+  //   } catch (err) {
+  //     console.error('Error during signup:', err);
+  //     res.status(500).json({ message: 'Server error', error: err.message });
+  //   }
+  // };
+  
+  const createUser = async (req, res) => {
+    const { name, email, password, role, phoneNumber, gender } = req.body;
+  
     try {
-      return await User.findOne({
+      
+      const existingUser = await User.findOne({
         where: {
           [Sequelize.Op.or]: [
-            { email },
-            { phoneNumber }
+            { email: email },
+            { phoneNumber: phoneNumber }
           ]
         }
       });
-    } catch (err) {
-      console.error('Error checking user existence:', err);
-      throw new Error('Database error occurred while checking user existence.');
-    }
-  };
-
-  const createUser = async (req, res) => {
-    const { name, email, password, role, phoneNumber, gender } = req.body;
-    
-    try {
-      const existingUser = await checkIfUserExists(email, phoneNumber);
   
       if (existingUser) {
         return res.status(400).json({ message: 'Email or Phone Number already exists' });
       }
   
-    
       const emailOtp = generateOtp();
       const phoneOtp = generateOtp();
-  
-      const otpExpirationTime = new Date(Date.now() + 1 * 60 * 60 * 1000); 
-      const formattedOtpExpirationTime = otpExpirationTime.toISOString().slice(0, 19).replace('T', ' '); 
+      const otpExpirationTime = new Date(Date.now() + 10 * 60 * 1000).toISOString();
   
       const hashedPassword = await bcrypt.hash(password, 10);
   
-      try {
-        const newUser = await User.create({
-          name,
-          email,
-          password: hashedPassword,
-          role,
-          phoneNumber,
-          gender,
-          emailOtp,
-          phoneOtp,
-          emailOtpExpiration: formattedOtpExpirationTime,  
-          phoneOtpExpiration: formattedOtpExpirationTime   
-        });
-        console.log(' user created Successfully:', newUser);
-      } catch (error) {
-        console.error('Error creating user:', error);
-        return res.status(500).json({ message: 'Server error during user creation', error: error.message });
-      }
+      await PendingUsers.create({
+        name,
+        email,
+        password: hashedPassword,
+        role,
+        phoneNumber,
+        gender,
+        emailOtp,
+        phoneOtp,
+        emailOtpExpiration: otpExpirationTime,
+        phoneOtpExpiration: otpExpirationTime,
+      });
   
-      sendEmailOtp(email, emailOtp,phoneNumber);
+      sendEmailOtp(email, emailOtp, phoneNumber);
       sendSmsOtp(phoneNumber, phoneOtp);
   
       res.status(201).json({ message: 'User created successfully. OTPs have been sent for verification.' });
-  
     } catch (err) {
       console.error('Error during signup:', err);
-      res.status(500).json({ message: 'Server error', error: err.message });
+      res.status(500).json({ message: 'Server error during signup' });
     }
   };
-  
-  
 
 
 

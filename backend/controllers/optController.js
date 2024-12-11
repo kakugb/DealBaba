@@ -165,8 +165,8 @@ exports.verifyOtps = async (req, res) => {
           role: user.role,
           phoneNumber: user.phoneNumber,
           gender: user.gender,
-          emailOtp:user.emailOtp,
-          phoneOtp:user.phoneOtp,
+          emailOtp: user.emailOtp,
+          phoneOtp: user.phoneOtp,
           isEmailVerified: true,
           isPhoneVerified: true,
           isVerified: true
@@ -174,21 +174,19 @@ exports.verifyOtps = async (req, res) => {
 
         // Check if user creation was successful
         if (createdUser) {
-          // Move to VerifiedUsers table
+          // If the user role is 'customer', move to VerifiedUsers table
           if (user.role === 'customer') {
             await VerifiedUsers.create({
               userId: createdUser.userId,
               name: createdUser.name,
               email: createdUser.email
             });
-
-            // Remove from PendingUser table after successful verification
-            await PendingUser.destroy({ where: { email: user.email } });
-
-            return res.json({ message: 'Both OTPs verified successfully. User moved to active users.', isVerified: true });
           }
-        } else {
-          return res.status(400).json({ message: 'Error while creating user in Users table' });
+
+          // Remove from PendingUser table after successful verification
+          await PendingUser.destroy({ where: { email: user.email } });
+
+          return res.json({ message: 'Both OTPs verified successfully. User moved to active users.', isVerified: true });
         }
       }
     } else {
@@ -200,6 +198,7 @@ exports.verifyOtps = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 
 
