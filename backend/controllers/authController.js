@@ -30,8 +30,15 @@ const signup = async (req, res) => {
   const { name, email, password, role, phoneNumber, gender } = req.body;
 
   try {
-    const existingUser = await PendingUsers.findOne({ where: { email } }) || 
-                          await User.findOne({ where: { email } });
+    
+    const existingUser = await User.findOne({
+      where: {
+        [Sequelize.Op.or]: [
+          { email: email },
+          { phoneNumber: phoneNumber }
+        ]
+      }
+    });
 
     if (existingUser) {
       return res.status(400).json({ message: 'Email or Phone Number already exists' });
