@@ -2,7 +2,8 @@ const User = require('../models/userModel.js');
 const VerifiedUsers= require('../models/verifiedUser.js');
 const { sendEmailOtp, sendSmsOtp } = require('../services/otpService.js');
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000); 
-
+const { Op } = require('sequelize');
+const PendingUser = require('../models/pendingUsers.js');
 
 exports.sendOtp = async (req, res) => {
   const { email, phoneNumber, type } = req.body;
@@ -117,68 +118,90 @@ if (Date.now() > expirationTimestamp) {
 
 
 
-
-
 exports.verifyOtps = async (req, res) => {
   let { otpEmail, otpPhone, email, phoneNumber } = req.body;
-  phoneNumber = phoneNumber.replace(/\s+/g, ''); 
+
+  // Clean up phone number and ensure it starts with "+"
+  phoneNumber = phoneNumber.replace(/\s+/g, '');
   if (!phoneNumber.startsWith('+')) {
-    phoneNumber = '+' + phoneNumber; 
+    phoneNumber = '+' + phoneNumber;
   }
 
-  
-
   try {
-    const user = await User.findOne({
+    // Find the user in the PendingUser table first
+    const user = await PendingUser.findOne({
       where: {
-        email: email.trim(),       
-        phoneNumber: phoneNumber   
+        email: email.trim(),
+        phoneNumber: phoneNumber
       }
     });
 
- 
-
     if (!user) {
-      return res.status(400).json({ message: 'User not found' });
+      return res.status(400).json({ message: 'User not found in pending users' });
     }
 
+    // Parse OTP values as integers
     otpEmail = parseInt(otpEmail, 10);
     otpPhone = parseInt(otpPhone, 10);
 
+    // Check if OTPs are valid
     const isEmailOtpValid = user.emailOtp === otpEmail;
     const isPhoneOtpValid = user.phoneOtp === otpPhone;
 
-    
-
     if (isEmailOtpValid && isPhoneOtpValid) {
-      
+      // Mark as verified in the PendingUser table
       user.isEmailVerified = true;
       user.isPhoneVerified = true;
       user.isVerified = true;
-      await user.save();
-      if (user.isVerified && user.role==='customer') {
-        
-        await VerifiedUsers.create({
-          userId:user.userId,
+      await user.save(); // Ensure that the PendingUser instance is updated
+
+      if (user.isVerified) {
+        // Move user to the active Users table
+        const createdUser = await User.create({
+          userId: user.userId,
           name: user.name,
-          email: user.email
+          email: user.email,
+          password: user.password,  // Assuming the password is already hashed
+          role: user.role,
+          phoneNumber: user.phoneNumber,
+          gender: user.gender,
+          emailOtp:user.emailOtp,
+          phoneOtp:user.phoneOtp,
+          isEmailVerified: true,
+          isPhoneVerified: true,
+          isVerified: true
         });
 
-     
-      
+        // Check if user creation was successful
+        if (createdUser) {
+          // Move to VerifiedUsers table
+          if (user.role === 'customer') {
+            await VerifiedUsers.create({
+              userId: createdUser.userId,
+              name: createdUser.name,
+              email: createdUser.email
+            });
 
+            // Remove from PendingUser table after successful verification
+            await PendingUser.destroy({ where: { email: user.email } });
+
+            return res.json({ message: 'Both OTPs verified successfully. User moved to active users.', isVerified: true });
+          }
+        } else {
+          return res.status(400).json({ message: 'Error while creating user in Users table' });
+        }
       }
-
-      return res.json({ message: 'Both OTPs verified successfully', isVerified: true });
     } else {
-    
       return res.status(400).json({ message: 'Invalid OTP(s)' });
     }
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
 
 
 

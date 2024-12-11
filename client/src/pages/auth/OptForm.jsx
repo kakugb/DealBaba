@@ -26,7 +26,7 @@ const OptForm = () => {
     };
 
     try {
-      console.log(verificationData);
+               
       const response = await axios.post(
         "http://localhost:5000/api/auth/verified",
         verificationData

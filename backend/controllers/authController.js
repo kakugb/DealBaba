@@ -5,7 +5,7 @@ const { Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const express = require('express');
-
+const PendingUsers = require('../models/pendingUsers.js');
 
 
 const checkIfUserExists = async (email, phoneNumber) => {
@@ -24,12 +24,15 @@ const checkIfUserExists = async (email, phoneNumber) => {
   }
 };
 
+
+
 const signup = async (req, res) => {
   const { name, email, password, role, phoneNumber, gender } = req.body;
-  
+
   try {
-     const existingUser = await checkIfUserExists(email, phoneNumber);
-   
+    const existingUser = await PendingUsers.findOne({ where: { email } }) || 
+                          await User.findOne({ where: { email } });
+
     if (existingUser) {
       return res.status(400).json({ message: 'Email or Phone Number already exists' });
     }
@@ -38,10 +41,9 @@ const signup = async (req, res) => {
     const phoneOtp = generateOtp();
     const otpExpirationTime = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({
+    await PendingUsers.create({
       name,
       email,
       password: hashedPassword,
@@ -53,8 +55,8 @@ const signup = async (req, res) => {
       emailOtpExpiration: otpExpirationTime,
       phoneOtpExpiration: otpExpirationTime,
     });
-   
-    sendEmailOtp(email, emailOtp,phoneNumber);
+
+    sendEmailOtp(email, emailOtp, phoneNumber);
     sendSmsOtp(phoneNumber, phoneOtp);
 
     res.status(201).json({ message: 'User created successfully. OTPs have been sent for verification.' });
@@ -63,6 +65,8 @@ const signup = async (req, res) => {
     res.status(500).json({ message: 'Server error during signup' });
   }
 };
+
+
 
 
 
