@@ -1,4 +1,6 @@
 const User = require('../models/userModel');
+const {DiscountRequest} =require('../models/discountRequest.js')
+const VerifiedUsers = require('../models/verifiedUser.js')
 const { generateOtp } = require('../utils/otpUtils');
 const { sendEmailOtp, sendSmsOtp } = require('../services/otpService');
 const { Sequelize } = require('sequelize'); 
@@ -160,30 +162,34 @@ const getUserById = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
+  
   const { id } = req.params;
-  const { name, email, password, role, phoneNumber, gender } = req.body;
+  const { name, email, phoneNumber } = req.body;
 
   try {
+    
+    console.log('VerifiedUser model:', VerifiedUsers);
     const user = await User.findOne({ where: { userId: id } });
+    const verifiedUser = await VerifiedUsers.findOne({ where: { userId: id } });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-   
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
-    }
+     console.log("vvvvvvvvv", verifiedUser);
 
-    
-    user.name = name || user.name;
+     user.name = name || user.name;
     user.email = email || user.email;
-    user.role = role || user.role;
     user.phoneNumber = phoneNumber || user.phoneNumber;
-    user.gender = gender || user.gender;
 
-    await user.save();
+     await user.save();
+
+     if (verifiedUser) {
+      verifiedUser.name = name || verifiedUser.name;
+      verifiedUser.email = email || verifiedUser.email;
+ 
+      await verifiedUser.save();
+    }
 
     return res.status(200).json({
       message: 'User updated successfully',
@@ -191,9 +197,7 @@ const updateUser = async (req, res) => {
         id: user.userId,
         name: user.name,
         email: user.email,
-        role: user.role,
-        phoneNumber: user.phoneNumber,
-        gender: user.gender
+        phoneNumber: user.phoneNumber
       }
     });
   } catch (error) {
@@ -203,26 +207,42 @@ const updateUser = async (req, res) => {
 };
 
 
+
+
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Log the ID received
+    console.log('ID received for deletion:', id);
+
+    // Try to find the user
     const user = await User.findOne({ where: { userId: id } });
 
+    // Check if user exists
     if (!user) {
+      console.log('User not found:', id);
       return res.status(404).json({ message: 'User not found' });
     }
 
+    console.log('User found:', user);  // Log user object
+
+    // If the user exists, delete them
     await user.destroy();
 
-    return res.status(200).json({
-      message: 'User deleted successfully'
-    });
+    return res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
-    console.error('Error deleting user:', error);
+    console.error('Error during deletion:', error);
     return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+
+
+
+
+
+
 
 
 

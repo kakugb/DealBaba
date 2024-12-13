@@ -30,6 +30,7 @@ function Dashboard() {
   }, []);
 
   const deleteUser = async (userId) => {
+    console.log(userId)
     try {
       const response = await axios.delete(`http://localhost:5000/api/users/${userId}`);
       console.log("User deleted:", response.data.message);
