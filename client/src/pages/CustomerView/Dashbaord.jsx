@@ -38,8 +38,9 @@ const Dashboard = () => {
   }, [isScanning]);
 
   const handleQRCodeData = async (data) => {
+  
     try {
-      console.log("Raw Scanned Data:", data);
+    
 
       let parsedData;
       if (data.trim().startsWith("{") && data.trim().endsWith("}")) {

@@ -59,7 +59,7 @@ function Register() {
               className="mb-5 object-cover"
             />
           </div>
-          {message && <p className="text-red-500">{message}</p>}
+          {message && <p className="text-green-400 font-bold">{message}</p>}
 
           <form onSubmit={handleRegister}>
             <div className="grid grid-cols-2 gap-4">

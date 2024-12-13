@@ -23,7 +23,7 @@ function ViewAllDeals() {
     navigate(`/customer/viewDetail/${id}`); // Navigates to the specified route with the id
   };
   
-  
+
   return (
     <div className="p-24">
   <h1 className="text-4xl font-bold mb-8 text-center text-rose-700">All Deals</h1>
