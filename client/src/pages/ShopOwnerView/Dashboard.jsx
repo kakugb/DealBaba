@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function Dashboard() {
   const [discountRequests, setDiscountRequests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,7 @@ function Dashboard() {
       setLoading(true); 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/deals/discountRequests?userId=${userId}`
+          `${BASE_URL}/deals/discountRequests?userId=${userId}`
         );
 
         if (response.data && response.data.discountRequests) {
@@ -47,7 +47,7 @@ function Dashboard() {
     try { 
      
       const response = await axios.put(
-        `http://localhost:5000/api/deals/approvedDiscount/${id}`,
+        `${BASE_URL}/deals/approvedDiscount/${id}`,
         { shopOwnerId: userId } 
       );
 
@@ -57,7 +57,7 @@ function Dashboard() {
         const fetchDiscountRequests = async () => {
           try {
             const response = await axios.get(
-              `http://localhost:5000/api/deals/discountRequests?userId=${userId}`
+              `${BASE_URL}/deals/discountRequests?userId=${userId}`
             );
             if (response.data && response.data.discountRequests) {
               setDiscountRequests(response.data.discountRequests);

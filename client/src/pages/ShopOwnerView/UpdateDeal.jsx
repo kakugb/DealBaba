@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function UpdateDeal() {
   const { id } = useParams(); 
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function UpdateDeal() {
   useEffect(() => {
     console.log(id);
     axios
-      .get(`http://localhost:5000/api/deals/getById/${id}`)  
+      .get(`${BASE_URL}/deals/getById/${id}`)  
       .then((response) => {
         console.log(response.data);
         setDeal(response.data.deal); 
@@ -59,7 +59,7 @@ function UpdateDeal() {
     }
 
     axios
-      .put(`http://localhost:5000/api/deals/update/${deal.id}`, formData)
+      .put(`${BASE_URL}/deals/update/${deal.id}`, formData)
       .then((response) => {
         console.log('Deal updated successfully:', response.data);
         navigate('/shopowner/dealPage')

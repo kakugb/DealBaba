@@ -3,7 +3,7 @@ import QrScanner from "qr-scanner";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 const Dashboard = () => {
   const [scanResult, setScanResult] = useState("");
   const [isScanning, setIsScanning] = useState(false);
@@ -72,7 +72,7 @@ const Dashboard = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/auth/verify-user",
+        `${BASE_URL}/auth/verify-user`,
         { name: parsedData.user, email: parsedData.email },
         {
           headers: {
@@ -131,7 +131,7 @@ const Dashboard = () => {
       console.log("QR Data being sent:", qrData);
 
       const response = await axios.post(
-        "http://localhost:5000/api/qr-code/send-qrcode",
+       `${BASE_URL}/qr-code/send-qrcode`,
         { userId: userData.id, qrData },
         { headers }
       );

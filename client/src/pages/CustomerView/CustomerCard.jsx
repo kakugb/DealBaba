@@ -4,6 +4,7 @@ import axios from 'axios';
 import female from '../../assets/female.jpg'
 import html2pdf from 'html2pdf.js'; 
 import male from '../../assets/male.jpg';
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function CustomerCard() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,7 +18,7 @@ function CustomerCard() {
           console.log("No token found");
           return;
         }
-        const response = await axios.get('http://localhost:5000/api/auth/user', {
+        const response = await axios.get(`${BASE_URL}/auth/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

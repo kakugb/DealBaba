@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 const UpdateUser = () => {
   const [user, setUser] = useState({
 
@@ -23,7 +23,7 @@ const UpdateUser = () => {
       try {
        
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`
+          `${BASE_URL}/users/${userId}`
         );
         console.log(response.data)
         setUser(response.data.user); 

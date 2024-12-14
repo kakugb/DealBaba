@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function AddDeal() {
   const [userId, setUserId] = useState('');
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ function AddDeal() {
 
     try {
 
-      const response = await axios.post('http://localhost:5000/api/deals/add-deal', formData, {
+      const response = await axios.post(`${BASE_URL}/deals/add-deal`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },

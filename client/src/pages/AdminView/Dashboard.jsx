@@ -11,11 +11,11 @@ function Dashboard() {
   const [usersPerPage] = useState(7);
   const [selectedRole, setSelectedRole] = useState(""); 
   const navigate = useNavigate();
-
+  const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users/getAllUser");
+        const response = await axios.get(`${BASE_URL}/users/getAllUser`);
         setUsers(response.data.users);
         setFilteredUsers(response.data.users); 
         setLoading(false);
@@ -32,7 +32,7 @@ function Dashboard() {
   const deleteUser = async (userId) => {
     console.log(userId)
     try {
-      const response = await axios.delete(`http://localhost:5000/api/users/${userId}`);
+      const response = await axios.delete(`${BASE_URL}/users/${userId}`);
       console.log("User deleted:", response.data.message);
       setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
       setFilteredUsers((prevUsers) =>

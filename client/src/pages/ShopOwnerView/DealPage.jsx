@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function DealPage() {
   const [deals, setDeals] = useState([]);
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ function DealPage() {
   const fetchAll = () => {
     if (userId) { 
       axios
-        .get(`http://localhost:5000/api/deals/dealbyUserId/${userId}`)
+        .get(`${BASE_URL}/deals/dealbyUserId/${userId}`)
         .then((response) => {
           setDeals(response.data.deals);
         })
@@ -38,7 +38,7 @@ function DealPage() {
   const deleteDeal = (dealId) => {
     console.log(dealId)
     axios
-      .delete(`http://localhost:5000/api/deals/delete/${dealId}`)
+      .delete(`${BASE_URL}/deals/delete/${dealId}`)
       .then((response) => {
         setDeals(deals.filter((deal) => deal._id !== dealId)); 
         console.log("Deal deleted successfully:", response.data);

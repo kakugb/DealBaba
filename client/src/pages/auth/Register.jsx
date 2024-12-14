@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DealBabaImg from '../../assets/DealBabaimg.png';
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -27,7 +27,7 @@ function Register() {
     try {
       // Ensure the API URL is correct
       const response = await axios.post(
-        "http://localhost:5000/api/auth/signup",
+        `${BASE_URL}/auth/signup`,
         formData,
         {
           headers: {

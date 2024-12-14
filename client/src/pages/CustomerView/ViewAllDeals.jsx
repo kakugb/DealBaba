@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function ViewAllDeals() {
   const [deals, setDeals] = useState([]);
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ function ViewAllDeals() {
     
     const fetchDeals = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/deals/getAll');
+        const response = await axios.get(`${BASE_URL}/deals/getAll`);
         setDeals(response.data.deals); 
       } catch (error) {
         console.error("Error fetching deals:", error);

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL; 
 const OptForm = () => {
   const [emailOtp, setOtpEmail] = useState('');
   const [otpPhone, setOtpPhone] = useState('');
@@ -28,7 +28,7 @@ const OptForm = () => {
     try {
                
       const response = await axios.post(
-        "http://localhost:5000/api/auth/verified",
+        `${BASE_URL}/auth/verified`,
         verificationData
       );
       setLoading(false);

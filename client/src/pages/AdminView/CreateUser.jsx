@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 const CreateUser = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ const CreateUser = () => {
     setErrorMessage("");
   
     try {
-      const response = await axios.post("http://localhost:5000/api/users", formData);
+      const response = await axios.post(`${BASE_URL}/users`, formData);
       setSuccessMessage("User created successfully!");
       setFormData({
         name: "",

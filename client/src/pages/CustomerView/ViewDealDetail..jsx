@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaWhatsapp, FaInstagram, FaLinkedin, FaFacebookF, FaEnvelope, FaTimes } from 'react-icons/fa';
-
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 function ViewDealDetail() {
   const { id } = useParams(); 
   const [deal, setDeal] = useState(null);
@@ -16,7 +16,7 @@ function ViewDealDetail() {
     const fetchDeal = async () => {
       try {
          
-        const response = await axios.get(`http://localhost:5000/api/deals/deal/${id}`);
+        const response = await axios.get(`${BASE_URL}/deals/deal/${id}`);
         setDeal(response.data.deal); 
       } catch (error) {
         console.error("Error fetching deal details:", error);
@@ -28,7 +28,7 @@ function ViewDealDetail() {
     const fetchDiscountStatus = async () => {
       try {
        
-        const response = await axios.get(`http://localhost:5000/api/deals/getDiscountDealStatus?dealId=${id}`);
+        const response = await axios.get(`${BASE_URL}/deals/getDiscountDealStatus?dealId=${id}`);
         setIsDiscountApproved(response.data.isApproved); 
       } catch (error) {
         console.error("Error fetching discount status:", error);
@@ -47,7 +47,7 @@ function ViewDealDetail() {
   const handleRequestDiscount = async (dealId) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/deals/requestDiscount`,
+        `${BASE_URL}/deals/requestDiscount`,
         { dealId, userId }
       );
  
@@ -73,7 +73,7 @@ function ViewDealDetail() {
     return <div>Error: Deal not found!</div>;
   }
   const handleShare = (platform) => {
-    const shareLink = "http://localhost:5000/api/auth/login";
+    const shareLink = `${BASE_URL}/auth/login`;
   
     switch (platform) {
       case "whatsapp":
