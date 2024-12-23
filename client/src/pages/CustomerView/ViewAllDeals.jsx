@@ -20,22 +20,21 @@ function ViewAllDeals() {
   }, []);
 
   const viewDealDetail = (id) => {
-    console.log(id); // Logs the id for debugging
-    navigate(`/customer/viewDetail/${id}`); // Navigates to the specified route with the id
+    navigate(`/customer/viewDetail/${id}`); 
   };
   
 
   return (
-    <div className="p-24">
-  <h1 className="text-4xl font-bold mb-8 text-center text-rose-700">All Deals</h1>
+    <div className="h-screen p-24 bg-gray-100 ">
+  <h1 className="text-4xl font-bold mb-8 text-center text-rose-700 font-mono">All Deals</h1>
 
   {/* Grid container for cards */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
     {deals.map((deal) => (
       
       <div
         key={deal.id}
-        className="group relative bg-white  rounded-xl overflow-hidden transform transition-all duration-300 hover:scale-105 shadow-md shadow-slate-700"
+        className="group relative bg-white  rounded-xl overflow-hidden transform transition-all duration-300 hover:scale-105  hover:-translate-y-2  shadow-md shadow-slate-700 "
       >
         {/* Image */}
         <img

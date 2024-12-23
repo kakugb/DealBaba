@@ -62,7 +62,7 @@ function DealPage() {
         <Link to="/shopowner/addDeal">
           <button
             type="button"
-            className="focus:outline-none text-white mt-2 bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+            className="focus:outline-none text-white mt-2 bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 hover:translate-x-2 transform transition-all duration-300"
           >
             Add Deals
           </button>
@@ -76,7 +76,7 @@ function DealPage() {
       </div>
 
       <div className="bg-white">
-        <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-5 lg:max-w-7xl lg:px-8">
           
 
         <div className="mt-6 grid grid-cols-1 gap-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 ">
