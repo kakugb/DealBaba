@@ -74,13 +74,13 @@ function UpdateDeal() {
   }
 
   return (
-    <div className=" flex items-center justify-center pt-24">
+    <div className="h-screen flex items-center justify-center pt-24 bg-rose-700">
           
             <div className="fixed top-20 left-4 flex justify-between px-4">
         
         <button
           onClick={() => navigate(-1)}
-          className=" bg-rose-700 p-3 text-white py-2 rounded-md hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className=" bg-white p-3 text-black py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500  hover:-translate-x-2 transform transition-all duration-300"
         >
            Go Back
         </button>

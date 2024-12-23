@@ -48,8 +48,6 @@ function AddDeal() {
         },
       });
 
-      // Handle success
-      console.log('Deal created successfully:', response.data);
       navigate('/shopowner/dealPage');
     } catch (error) {
       // Handle error
@@ -60,13 +58,13 @@ function AddDeal() {
 
   return (
     <div>
-      <div className="pt-20 flex items-center justify-center">
+      <div className="pt-20 h-screen flex items-center justify-center bg-rose-700">
         {/* Bottom Buttons */}
         <div className="fixed top-20 left-4 flex justify-between px-4">
           {/* Go Back Button */}
           <button
             onClick={() => navigate(-1)}
-            className="bg-rose-700 p-3 text-white py-2 rounded-md hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="bg-white p-3 text-black py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:-translate-x-2 transform transition-all duration-300"
           >
             Go Back
           </button>

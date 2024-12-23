@@ -24,7 +24,7 @@ export default function Header() {
   
   };
   return (
-    <Disclosure as="nav" className="bg-gray-100 border-opacity-60 border-slate-600 fixed w-full top-0 left-0 z-30 shadow-lg shadow-gray-300 ">
+    <Disclosure as="nav" className="bg-gray-100 border-opacity-60 border-slate-600 fixed w-full top-0 left-0 z-30 shadow-lg ">
       <div className="px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -52,7 +52,7 @@ export default function Header() {
                 <Link
                   to='/shopOwner/dashboard'
                   className={classNames(
-                    'text-black hover:bg-red-900 hover:text-white',
+                    'text-black hover:text-rose-800 ',
                     'rounded-md px-3 py-2 text-md font-semibold'
                   )}
                 >
@@ -61,7 +61,7 @@ export default function Header() {
                 <Link
                   to='/shopowner/dealPage'
                   className={classNames(
-                    'text-black hover:bg-red-900 hover:text-white',
+                    'text-black  hover:text-rose-800',
                     'rounded-md px-3 py-2 text-md font-semibold'
                   )}
                 >
@@ -102,7 +102,7 @@ export default function Header() {
           <Link
             to='/shopOwner/dashboard'
             className={classNames(
-              'block rounded-md px-3 py-2 text-base font-medium text-black  hover:bg-red-900 hover:text-white'
+              'block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-text-rose-800'
             )}
           >
             Dashbaord
@@ -110,7 +110,7 @@ export default function Header() {
           <Link
             to='/shopowner/dealPage'
             className={classNames(
-              'block rounded-md px-3 py-2 text-base font-medium text-black  hover:bg-red-900 hover:text-white '
+              'block rounded-md px-3 py-2 text-base font-medium text-black  hover:bg-text-rose-800 '
             )}
           >
             Deal

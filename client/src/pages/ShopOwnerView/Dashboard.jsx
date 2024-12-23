@@ -108,7 +108,7 @@ function Dashboard() {
                 <td className="px-4 py-2 border-b">
                   <button 
                     onClick={() => handleAction(request.id, request.Deal.userId)} 
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    className="bg-rose-800 text-white px-4 py-2 rounded hover:bg-red-700 hover:translate-x-2 transform transition-all duration-300"
                   >
                     Approved
                   </button>

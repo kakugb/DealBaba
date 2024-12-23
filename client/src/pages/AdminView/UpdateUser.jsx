@@ -59,15 +59,14 @@ const UpdateUser = () => {
     alert("This is an alert!");
   };
 
-  console.log(user)
   return (
     <>
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-    <div className="fixed top-20 left-4 flex justify-between px-4">
+    <div className="flex justify-center items-center h-screen bg-rose-700">
+    <div className="fixed top-16 md:top-20 left-4 flex justify-between px-4">
         {/* Go Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className=" bg-rose-700 p-3 text-white py-2 rounded-md hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className=" bg-rose-700 text-white md:bg-white p-3 md:text-black py-2 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:-translate-x-2 transform transition-all duration-300"
         >
            Go Back
         </button>

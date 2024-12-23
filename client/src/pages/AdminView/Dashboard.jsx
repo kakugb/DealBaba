@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]); 
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(7);
-  const [selectedRole, setSelectedRole] = useState(""); 
+  const [selectedRole, setSelectedRole] = useState("");
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
   useEffect(() => {
@@ -17,7 +17,7 @@ function Dashboard() {
       try {
         const response = await axios.get(`${BASE_URL}/users/getAllUser`);
         setUsers(response.data.users);
-        setFilteredUsers(response.data.users); 
+        setFilteredUsers(response.data.users);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching users:", err);
@@ -30,14 +30,15 @@ function Dashboard() {
   }, []);
 
   const deleteUser = async (userId) => {
-    console.log(userId)
     try {
       const response = await axios.delete(`${BASE_URL}/users/${userId}`);
       console.log("User deleted:", response.data.message);
-      setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user.userId !== userId)
+      );
       setFilteredUsers((prevUsers) =>
         prevUsers.filter((user) => user.userId !== userId)
-      ); 
+      );
     } catch (error) {
       console.error("Error deleting user:", error);
       setError("Failed to delete user.");
@@ -53,11 +54,10 @@ function Dashboard() {
     if (role) {
       setFilteredUsers(users.filter((user) => user.role === role));
     } else {
-      setFilteredUsers(users); 
+      setFilteredUsers(users);
     }
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
-
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -86,7 +86,6 @@ function Dashboard() {
           <main className="flex-1 overflow-x-hidden overflow-y-auto md:pl-32">
             <div className="md:ml-6 mt-2">
               <div className="w-full h-12 flex justify-between md:pr-3 pr-3 mt-7">
-              
                 <select
                   value={selectedRole}
                   onChange={(e) => filterByRole(e.target.value)}
@@ -98,22 +97,24 @@ function Dashboard() {
                   {/* Add more roles here */}
                 </select>
                 <Link to="/admin/addUser">
-                <button className="w-[200px] h-10 bg-rose-600 font-semibold text-sm text-white hover:bg-rose-500 rounded-md md:mr-10">
-                  Add Student
-                </button>
+                  <button className="w-[200px] h-10 bg-rose-600 font-semibold text-sm text-white hover:bg-rose-500 rounded-md md:mr-10">
+                    Add Student
+                  </button>
                 </Link>
-
-                
               </div>
 
               {/* User Table */}
               <div className="md:w-11/12 w-full md:relative absolute overflow-x-auto shadow-md shadow-slate-700 sm:rounded-lg mt-2">
                 {loading ? (
-                  <p className="text-center text-blue-500 font-semibold">Loading...</p>
+                  <p className="text-center text-blue-500 font-semibold">
+                    Loading...
+                  </p>
                 ) : error ? (
-                  <p className="text-center text-red-500 font-semibold">{error}</p>
+                  <p className="text-center text-red-500 font-semibold">
+                    {error}
+                  </p>
                 ) : (
-                  <table className="md:w-full w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <table className="md:w-full w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-hidden ">
                     <thead className="text-md font-bold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
                         <th className="px-8 py-3">Student Name</th>
@@ -128,7 +129,7 @@ function Dashboard() {
                       {currentUsers.map((user) => (
                         <tr
                           key={user.userId}
-                          className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-black"
+                          className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-black hover:translate-x-2 transform transition-transform duration-300 hover:bg-gray-200"
                         >
                           <td className="px-6 py-4">{user.name}</td>
                           <td className="px-6 py-4">{user.email}</td>
@@ -137,13 +138,13 @@ function Dashboard() {
                           <td className="px-6 py-4">{user.role}</td>
                           <td className="px-6 py-4 space-x-2 flex">
                             <button
-                              className="font-medium text-blue-600 dark:text-blue-500 hover:no-underline"
+                              className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
                               onClick={() => updateUser(user.userId)}
                             >
                               Edit
                             </button>
                             <button
-                              className="font-medium text-red-600 hover:text-red-600 hover:no-underline"
+                              className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 "
                               onClick={() => deleteUser(user.userId)}
                             >
                               Delete
