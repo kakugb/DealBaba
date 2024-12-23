@@ -47,7 +47,7 @@ const UpdateUser = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.put(`http://localhost:5000/api/users/${userId}`, user);
+      await axios.put(`${BASE_URL}/users/${userId}`, user);
       setLoading(false);
       navigate("/admin/dashboard"); 
     } catch (err) {

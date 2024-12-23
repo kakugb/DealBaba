@@ -22,6 +22,7 @@ const DiscountRequest = sequelize.define('DiscountRequest', {
     defaultValue: false,
   },
 }, {
+  tableName: 'discountrequests',
   timestamps: true,
 });
 

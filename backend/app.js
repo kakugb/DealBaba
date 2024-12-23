@@ -22,6 +22,9 @@ app.use('/api/users', userRoutes);
 
 app.use('/api/qr', qrCodeRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Hello Deal Baba");
+});
 
 
 const PORT = process.env.PORT || 5000;

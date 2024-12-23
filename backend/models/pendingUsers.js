@@ -62,6 +62,7 @@ const PendingUser = sequelize.define('PendingUser', {
     defaultValue: 0 
   },
 }, {
+  tableName: 'pendingusers',
   timestamps: true, 
 });
 

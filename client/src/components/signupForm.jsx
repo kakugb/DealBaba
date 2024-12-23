@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const SignupForm = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/auth/signup", formData);
+      const response = await axios.post(`${BASE_URL}/auth/signup`, formData);
       
       
       const userId = response.data.userId;
