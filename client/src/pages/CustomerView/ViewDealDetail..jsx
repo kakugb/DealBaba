@@ -139,13 +139,13 @@ function ViewDealDetail() {
             Back
           </button>
         </div>
-        <div className=" rounded-lg  max-w-2xl w-full shadow-md shadow-slate-700 hover:-translate-y-2 transform transition-transform duration-300 bg-gray-100">
+        <div className=" rounded-xl max-w-2xl w-full shadow-md shadow-slate-700 hover:-translate-y-2 transform transition-transform duration-300 bg-gray-100">
           {/* Image Section */}
-          <div className="h-52 bg-gray-200 flex items-center justify-center">
+          <div className="h-52 bg-gray-200 flex items-center justify-center rounded-t-xl">
             <img
               src={deal.image}
               alt={deal.dealName}
-              className="w-full h-52 object-cover"
+              className="w-full h-52 object-cover rounded-t-xl"
             />
           </div>
 

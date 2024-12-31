@@ -80,11 +80,11 @@ function Dashboard() {
   }
 
   return (
-    <div className="pt-20">
-      <h2 className="text-4xl font-bold  text-rose-700 text-center mb-10">Discount Requests Dashboard</h2>
+    <div className="h-screen pt-28 bg-rose-700">
+      <h2 className="text-4xl font-bold  text-white text-center mb-10">Discount Requests Dashboard</h2>
 
   
-      <div className="overflow-x-auto shadow-md rounded-lg mx-auto w-10/12">
+      <div className=" shadow-md rounded-lg mx-auto w-10/12 overflow-hidden">
         <table className="min-w-full bg-white table-auto">
           <thead>
             <tr className="bg-gray-100 text-left">
@@ -99,7 +99,9 @@ function Dashboard() {
           <tbody>
            
             {discountRequests.map((request) => (
-              <tr key={request.id}>
+              <tr key={request.id}
+               className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-black font-semibold hover:translate-x-2 transform transition-transform duration-300 hover:bg-gray-200"
+              >
                 <td className="px-4 py-2 border-b">{request.Deal.dealName}</td>
                 <td className="px-4 py-2 border-b">{request.User.name}</td>
                 <td className="px-4 py-2 border-b">{request.User.phoneNumber}</td>
