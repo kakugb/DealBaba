@@ -144,7 +144,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center pt-28 bg-rose-700">
+    <div className="min-h-screen flex flex-col items-center justify-center ">
       <h1 className="text-2xl font-bold mb-6 text-white">QR Code Scanner</h1>
 
       {isScanning && (
@@ -156,7 +156,7 @@ const Dashboard = () => {
       {!isScanning && (
         <button
           onClick={startScanning}
-          className="mt-6 px-6 py-2 bg-gray-700 hover:bg-gray-400 text-white font-semibold rounded-md"
+          className="mt-6 px-6 py-2  text-white font-semibold rounded-md bg-rose-700 hover:bg-rose-500"
         >
           Start Scanning
         </button>
@@ -165,13 +165,13 @@ const Dashboard = () => {
       {isScanning && (
         <button
           onClick={stopScanning}
-          className="mt-6 px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-md"
+          className="mt-6 px-6 py-2 bg-rose-700 hover:bg-rose-500 text-white font-semibold rounded-md"
         >
           Stop Scanning
         </button>
       )}
 
-      <p className="mt-4 text-gray-300">Point your camera at a QR code to scan.</p>
+      <p className="mt-4 text-black font-semibold">Point your camera at a QR code to scan.</p>
 
       {scanResult && (
         <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
@@ -182,7 +182,7 @@ const Dashboard = () => {
 
       <button
         onClick={generateQRCode}
-        className="mt-6 px-6 py-2 bg-gray-700 hover:bg-gray-400 text-white font-semibold rounded-md"
+        className="mt-6 px-6 py-2 bg-rose-700 hover:bg-rose-500 text-white font-semibold rounded-md"
       >
         Generate QR Code
       </button>

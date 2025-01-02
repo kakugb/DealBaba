@@ -16,11 +16,11 @@ function Dashboard() {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
    const [currentPage, setCurrentPage] = useState(1);
-   const [usersPerPage] = useState(7);
+   const [usersPerPage] = useState(9);
    const [selectedRole, setSelectedRole] = useState("");
    const [showModal, setShowModal] = useState(false);
 
-   const navigate = useNavigate(); 
+ 
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -29,22 +29,29 @@ function Dashboard() {
          [name]: value,
       }));
    };
+
+
    const fetchUsers = async () => {
-    try {
-       const response = await axios.get(`${BASE_URL}/users/getAllUser`);
-       setFilteredUsers(response.data.users);
-       setLoading(false);
-    } catch (err) {
-       console.error("Error fetching users:", err);
-       setError("Failed to fetch users. Please try again later.");
-       setLoading(false);
-    }
- };
+      try {
+         const response = await axios.get(`${BASE_URL}/users/getAllUser`);
+         let users = response.data.users;
+         if (selectedRole) {
+            users = users.filter((user) => user.role === selectedRole);
+         }
+         setFilteredUsers(users);
+         setLoading(false);
+      } catch (err) {
+         console.error("Error fetching users:", err);
+         setError("Failed to fetch users. Please try again later.");
+         setLoading(false);
+      }
+   };
 
    useEffect(() => {
-      fetchUsers();
-   }, []);
+      fetchUsers(); // Call fetchUsers on mount and when role changes
+   }, [selectedRole]);
 
+   
    const deleteUser = async (userId) => {
       try {
          await axios.delete(`${BASE_URL}/users/${userId}`);
@@ -84,15 +91,16 @@ function Dashboard() {
     }
   };
 
-   const filterByRole = (role) => {
-      setSelectedRole(role);
-      if (role) {
-         setFilteredUsers(filteredUsers.filter((user) => user.role === role));
-      } else {
-         setFilteredUsers(filteredUsers);
-      }
-      setCurrentPage(1);
-   };
+  const filterByRole = (value) => {
+   setSelectedRole(value); // Update selected role
+   setCurrentPage(1); // Reset pagination to first page
+   if (value) {
+      setFilteredUsers(filteredUsers.filter((user) => user.role === value));
+   } else {
+      setFilteredUsers(filteredUsers); // Show all users if role is empty
+   }
+};
+
 
    const indexOfLastUser = currentPage * usersPerPage;
    const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -113,7 +121,7 @@ function Dashboard() {
             <div className="w-full flex flex-col flex-1 overflow-hidden">
                <main className="flex-1 overflow-x-hidden overflow-y-auto md:pl-32">
                   <div className="md:ml-6 mt-2">
-                     <div className="w-full h-12 flex justify-between md:pr-3 pr-3 mt-7">
+                     <div className="w-full h-12 flex justify-between md:pr-3 pr-3 my-12">
                         <select
                            value={selectedRole}
                            onChange={(e) => filterByRole(e.target.value)}
@@ -243,17 +251,21 @@ function Dashboard() {
          {showModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-md">
+         
+         <button
+    onClick={() => setShowModal(false)}
+    className="w-full flex justify-end text-black font-semibold hover:text-gray-800"
+>
+   X
+</button>
+         
                   <h2 className="text-2xl font-bold text-center mb-6 text-red-700">
                      Update User
                   </h2>
-                  <button
-                     onClick={() => setShowModal(false)}
-                     className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
-                  >
-                     &times;
-                  </button>
+               
+
                   <form onSubmit={handleSubmit}>
-       
+                  
 
        {/* Email */}
        <div className="mb-4">

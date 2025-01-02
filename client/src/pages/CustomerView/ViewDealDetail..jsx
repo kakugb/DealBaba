@@ -19,7 +19,9 @@ function ViewDealDetail() {
   const [isDiscountApproved, setIsDiscountApproved] = useState(false);
   const [showMobileIcons, setShowMobileIcons] = useState(false);
   const [showDesktopIcons, setShowDesktopIcons] = useState(false);
+  
   useEffect(() => {
+
     const fetchDeal = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/deals/deal/${id}`);
@@ -33,9 +35,16 @@ function ViewDealDetail() {
 
     const fetchDiscountStatus = async () => {
       try {
+        const userJson = localStorage.getItem("user");
+          const user = JSON.parse(userJson); 
+          const userid= user?.id;
+          console.log(`${BASE_URL}/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`);
+
+console.log(userid ,id)
         const response = await axios.get(
-          `${BASE_URL}/deals/getDiscountDealStatus?dealId=${id}`
+          `${BASE_URL}/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`
         );
+      
         setIsDiscountApproved(response.data.isApproved);
       } catch (error) {
         console.error("Error fetching discount status:", error);
@@ -56,7 +65,7 @@ function ViewDealDetail() {
         dealId,
         userId
       });
-
+console.log(response)
       if (response.status === 201) {
         alert("Discount request sent successfully!");
       } else {

@@ -39,13 +39,14 @@ function CustomerCard() {
   const handleSharePDF = () => {
     const element = document.getElementById('user-card'); 
     const options = {
-      margin:       1,
-      filename:     'user-info.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      margin: 1,
+      filename: 'user-info.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 4, useCORS: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
     };
-    html2pdf().from(element).set(options).save(); 
+    html2pdf().from(element).set(options).save();
+     
   };
 
   if (loading) {
@@ -54,50 +55,52 @@ function CustomerCard() {
 
   if (error) {
     return <div>{error}</div>;
-  }
-
+  } 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-xl rounded-lg overflow-hidden shadow-2xl flex flex-col md:flex-row" id="user-card">
-        {/* Left Section: User Details */}
-        <div className='bg-rose-700'>
-          <div className="flex-1 p-6 text-white space-y-4">
-            <div className="text-center">
-              <p className="w-full">
-                {user.gender === 'male' ? (
-                  <img src={male} alt="Male" className="w-16 h-14 mr-2 rounded-full ml-40 md:ml-28" />
-                ) : (
-                  <img src={female} alt="Female" className="w-16 h-14 mr-2 rounded-full md:ml-28" />
-                )}
-              </p>
-              <h2 className="text-2xl font-bold text-center mt-1">{user.role}</h2>
-            </div>
-
-            {/* User Info */}
-            <div>
-              <p className="text-lg">Name: <span className="font-semibold pl-16">{user.name || 'Loading...'}</span></p>
-              <p className="text-lg">Phone No: <span className="font-semibold pl-7">{user.phoneNumber || 'Loading...'}</span></p>
-              <p className="text-lg">Email Address: <span className="font-semibold pl-2">{user.email || 'Loading...'}</span></p>
-            </div>
-          </div>
+    <div id="user-card" className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="bg-purple-200 p-6 rounded-lg shadow-md w-96">
+      <h2 className="text-center text-xl mb-4 uppercase text-rose-700 font-bold">{user.name} login card</h2>
+      <div className="flex flex-col items-center">
+        <div className="relative">
+          {user.gender === 'male' ? (
+            <img src={male} alt="Male" className="w-20 h-20 rounded-full object-cover" />
+          ) : (
+            <img src={female} alt="Female" className="w-20 h-20 rounded-full object-cover" />
+          )}
+          {/* <button className="absolute bottom-0 right-0  text-white p-1 rounded-full shadow-md hover:bg-purple-600">
+            📷
+          </button> */}
         </div>
-        
-        {/* Right Section: QR Code */}
-        <div className="flex justify-center items-center  p-6">
-          <QRCode value={`name:${user.name || 'Loading...'} - email:${user.email || 'Loading...'}`} size={128} />
+        <h3 className="mt-4 text-lg font-bold">{user.name || ''}</h3>
+      </div>
+      <div className="my-4 border-t border-gray-300"></div>
+      <div className="flex justify-center">
+        <div className="bg-white p-2 rounded-lg shadow">
+          <QRCode value={`name:${user.name || 'Loading...'} - email:${user.email || ''}`} size={128} />
         </div>
       </div>
-
-      {/* Share Button */}
-      <div className="text-center mt-4 ml-4">
+      <div className="text-center mt-4">
+        <p className="text-sm">
+          <span className="font-bold">Username:</span> {user.name || 'Loading...'}
+        </p>
+        <p className="text-sm">
+          <span className="font-bold">Email:</span> {user.email}
+        </p>
+      </div>
+      <div className="flex justify-around mt-6">
+        {/* <button className="px-4 pt-1 pb-2 bg-rose-700 text-white rounded-lg shadow hover:bg-rose-500">
+          Email
+        </button> */}
         <button
+          className="px-4 pt-1 pb-2 bg-rose-700 text-white rounded-lg shadow hover:bg-rose-500"
           onClick={handleSharePDF}
-          className="bg-rose-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-rose-500"
         >
-          Share as PDF
+          Print
         </button>
       </div>
     </div>
+  </div>
+  
   );
 }
 

@@ -303,27 +303,24 @@ exports.approveDiscount = async (req, res) => {
 
 
 exports.getDiscountRequestByDealId = async (req, res) => {
-  const { dealId } = req.query; 
+  const { userId,dealId } = req.query; 
  
 
   try {
-   
     const discountRequest = await DiscountRequest.findOne({
-      where: { dealId },
+      where: { dealId, userId },
     });
-
-    if (!discountRequest) {
-      return res.status(404).json({ message: 'Discount request not found' });
-    }
-
-    res.json({ isApproved: discountRequest.isApproved });
+  
+    const isApproved = discountRequest ? discountRequest.isApproved : false; 
+  
+    res.json({ isApproved });
   } catch (error) {
     console.error('Error fetching discount request:', error);
     res.status(500).json({ message: 'Error fetching discount request', error });
   }
-};
+  
 
-
+}
 
 exports.DiscountVisibility = async (req, res) => {
   const { id, userId } = req.body;

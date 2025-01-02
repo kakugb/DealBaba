@@ -73,7 +73,7 @@ export default function Header() {
                 <Link
                   to='/customer/customerCart'
                   className={classNames(
-                    'text-black hover:bg-red-900 hover:text-white',
+                    'text-black  hover:text-rose-700',
                     'rounded-md px-3 py-2 text-md font-semibold'
                   )}
                 >
@@ -82,7 +82,7 @@ export default function Header() {
                 <Link
                   to='/customer/allDeals'
                   className={classNames(
-                    'text-black hover:bg-red-900 hover:text-white',
+                    'text-black  hover:text-rose-700',
                     'rounded-md px-3 py-2 text-md font-semibold'
                   )}
                 >
@@ -123,7 +123,7 @@ export default function Header() {
           <Link
             to='/customer/customerCart'
             className={classNames(
-              'block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-red-900 hover:text-white'
+              'block rounded-md px-3 py-2 text-base font-medium text-black  hover:text-rose-700'
             )}
           >
             Customer Card
@@ -131,7 +131,7 @@ export default function Header() {
           <Link
             to='/customer/allDeals'
             className={classNames(
-              'block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-red-900 hover:text-white'
+              'block rounded-md px-3 py-2 text-base font-medium text-black hover:text-rose-700'
             )}
           >
             All Deals

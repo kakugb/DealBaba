@@ -28,10 +28,10 @@ function ViewAllDeals() {
 
   return (
     <div className="h-full min-h-screen p-12 mt-14 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 ">
-      <h1 className="text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-rose-700 mb-10">
+      <h1 className="text-5xl font-extrabold text-center text-transparent bg-clip-text mb-10 text-rose-700">
         All Deals
       </h1>
-
+ 
       {/* Grid container */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
         {deals.map((deal) => (
@@ -78,7 +78,7 @@ function ViewAllDeals() {
               {/* View Details Button */}
               <button
                 onClick={() => viewDealDetail(deal.id)}
-                className="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-rose-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                className="w-full px-4 py-2 bg-rose-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 View Details
               </button>
