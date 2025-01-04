@@ -39,7 +39,7 @@ function AddDeal() {
     }
 
     formData.append('userId', userId);
-
+ 
     try {
 
       const response = await axios.post(`${BASE_URL}/deals/add-deal`, formData, {
@@ -50,10 +50,21 @@ function AddDeal() {
 
       navigate('/shopowner/dealPage');
     } catch (error) {
-      // Handle error
-      console.error('Error creating deal:', error.response?.data || error.message);
-      alert('Failed to create deal.');
+      if (error.response) {
+        // Server responded with a status outside the 2xx range
+        console.error('Error response:', error.response.data);
+        alert(`Failed to create deal: ${error.response.data.message || 'Unknown error'}`);
+      } else if (error.request) {
+        // No response received
+        console.error('No response from server:', error.request);
+        alert('Failed to reach the server. Please try again later.');
+      } else {
+        // Other errors
+        console.error('Error setting up request:', error.message);
+        alert('An unexpected error occurred. Please try again.');
+      }
     }
+    
   };
 
   return (

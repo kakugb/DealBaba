@@ -1,5 +1,5 @@
 const express = require('express');
-const upload = require('../config/upload.js'); 
+const upload = require('../config/multer.js'); 
 const { getAllFiles, getFileById, updateFile, deleteFile ,addDeal,getFileByuserId,requestDiscount,approveDiscount,getDiscountRequests, getDiscountRequestByDealId } = require('../controllers/addDealsController.js');
 
 const router = express.Router();

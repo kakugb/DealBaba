@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaTag, FaStore, FaPercent } from "react-icons/fa";
 import { MdOutlineDescription } from "react-icons/md";
+const BASE_URL_IMAGE = import.meta.env.VITE_DEALBABA_IMAGE_URL;
 const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 
+
+
+  
 function DealPage() {
   const [deals, setDeals] = useState([]);
   const [userId, setUserId] = useState("");
@@ -40,17 +44,16 @@ function DealPage() {
     }
   }, [userId]);
 
-  const deleteDeal = (dealId) => {
-    axios
-      .delete(`${BASE_URL}/deals/delete/${dealId}`)
-      .then((response) => {
-        setDeals(deals.filter((deal) => deal._id !== dealId));
-        console.log("Deal deleted successfully:", response.data);
-        fetchAll();
-      })
-      .catch((error) => {
-        console.error("Error deleting deal:", error);
-      });
+  const deleteDeal = async (dealId) => {
+    try {
+      await axios.delete(`${BASE_URL}/deals/delete/${dealId}`);
+      console.log(`Deal ${dealId} deleted successfully`);
+  
+      
+      fetchAll(); 
+    } catch (error) {
+      console.error("Error deleting deal:", error);
+    }
   };
 
   const openUpdatePopup = (deal) => {
@@ -91,7 +94,7 @@ function DealPage() {
         console.error("Error updating deal:", error);
       });
   };
-
+console.log(deals)
   return (
     <>
       <div className="h-full min-h-screen p-4  bg-white ">
@@ -106,7 +109,7 @@ function DealPage() {
             Add Deals
           </button>
         </Link>
-        <h1 className="text-4xl font-extrabold text-rose-700 text-center font-serif mb-12">
+        <h1 className="text-4xl font-extrabold text-rose-700 text-center font-serif mb-12 uppercase">
           List of all deals
         </h1>
 
@@ -119,11 +122,12 @@ function DealPage() {
               {/* Image Section */}
               <div className="h-52 w-full bg-cover bg-center border border-gray-200 rounded-t-lg overflow-hidden">
                 <img
-                  src={deal.image}
+                  src={`${BASE_URL_IMAGE}uploads/${deal.image}`}
                   alt="deal-image"
                   className="w-full h-full object-cover rounded-t-xl"
                 />
               </div>
+
 
               {/* Content Section */}
               <div className="flex flex-col justify-between p-4">

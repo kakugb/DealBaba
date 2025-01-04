@@ -3,6 +3,7 @@ import QrScanner from "qr-scanner";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import logo from '../../assets/Dealbablogo.png'
 const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
 const Dashboard = () => {
   const [scanResult, setScanResult] = useState("");
@@ -145,10 +146,12 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center ">
-      <h1 className="text-2xl font-bold mb-6 text-white">QR Code Scanner</h1>
-
+      <img src={logo}  alt="logo"
+      className="h-30 w-30"
+      />
+      <h1 className="text-3xl font-bold mt-2 mb-4 text-rose-700">DEALBABA</h1>
       {isScanning && (
-        <div className="relative w-72 h-72 border-2 border-blue-500 rounded-lg overflow-hidden shadow-lg">
+        <div className="relative w-72 h-72 mt-6 border-2 border-blue-500 rounded-lg overflow-hidden shadow-lg">
           <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted />
         </div>
       )}
@@ -156,7 +159,7 @@ const Dashboard = () => {
       {!isScanning && (
         <button
           onClick={startScanning}
-          className="mt-6 px-6 py-2  text-white font-semibold rounded-md bg-rose-700 hover:bg-rose-500"
+          className=" px-6 py-2 mt-6 text-white font-semibold rounded-md bg-rose-700 hover:bg-rose-500"
         >
           Start Scanning
         </button>
@@ -165,7 +168,7 @@ const Dashboard = () => {
       {isScanning && (
         <button
           onClick={stopScanning}
-          className="mt-6 px-6 py-2 bg-rose-700 hover:bg-rose-500 text-white font-semibold rounded-md"
+          className=" px-6 py-2 mt-6 bg-rose-700 hover:bg-rose-500 text-white font-semibold rounded-md"
         >
           Stop Scanning
         </button>

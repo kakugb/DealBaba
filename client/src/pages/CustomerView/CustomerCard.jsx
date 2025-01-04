@@ -57,9 +57,9 @@ function CustomerCard() {
     return <div>{error}</div>;
   } 
   return (
-    <div id="user-card" className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div id="user-card" className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100">
     <div className="bg-purple-200 p-6 rounded-lg shadow-md w-96">
-      <h2 className="text-center text-xl mb-4 uppercase text-rose-700 font-bold">{user.name} login card</h2>
+      <h2 className="text-center text-2xl mb-4 uppercase text-rose-700 font-bold">{user.name} login card</h2>
       <div className="flex flex-col items-center">
         <div className="relative">
           {user.gender === 'male' ? (
@@ -71,7 +71,7 @@ function CustomerCard() {
             📷
           </button> */}
         </div>
-        <h3 className="mt-4 text-lg font-bold">{user.name || ''}</h3>
+        <h3 className="mt-4 text-xl font-bold">{user.name || ''}</h3>
       </div>
       <div className="my-4 border-t border-gray-300"></div>
       <div className="flex justify-center">
@@ -80,11 +80,11 @@ function CustomerCard() {
         </div>
       </div>
       <div className="text-center mt-4">
-        <p className="text-sm">
-          <span className="font-bold">Username:</span> {user.name || 'Loading...'}
+        <p className="text-xl">
+          <span className="font-bold text-xl">Username:</span> {user.name || 'Loading...'}
         </p>
-        <p className="text-sm">
-          <span className="font-bold">Email:</span> {user.email}
+        <p className="text-xl">
+          <span className="font-bold ">Email:</span> {user.email}
         </p>
       </div>
       <div className="flex justify-around mt-6">

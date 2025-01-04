@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaTag, FaStore, FaPercent } from "react-icons/fa";
 
 const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
-
+const BASE_URL_IMAGE = import.meta.env.VITE_DEALBABA_IMAGE_URL;
 function ViewAllDeals() {
   const [deals, setDeals] = useState([]);
   const navigate = useNavigate();
@@ -27,8 +27,8 @@ function ViewAllDeals() {
   };
 
   return (
-    <div className="h-full min-h-screen p-12 mt-14 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 ">
-      <h1 className="text-5xl font-extrabold text-center text-transparent bg-clip-text mb-10 text-rose-700">
+    <div className="h-full min-h-screen p-12 mt-10 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 ">
+      <h1 className="text-5xl font-extrabold text-center  bg-clip-text mb-10 text-rose-700 mt-10">
         All Deals
       </h1>
  
@@ -42,7 +42,7 @@ function ViewAllDeals() {
             {/* Image */}
             <div className="relative h-48">
               <img
-                src={deal.image}
+                src={`${BASE_URL_IMAGE}uploads/${deal.image}`}
                 alt={deal.dealName}
                 className="w-full h-full object-cover rounded-t-xl"
               />

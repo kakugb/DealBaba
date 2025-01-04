@@ -29,7 +29,7 @@ const sendQRCodeEmail = async (req, res) => {
 
     
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: 'info@dealbaba.com.au',
       to: email,
       subject: 'Your QR Code',
       text: 'Here is your QR code for verification.',

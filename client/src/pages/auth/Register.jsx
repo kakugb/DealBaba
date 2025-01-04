@@ -155,9 +155,9 @@ function Register() {
           <div className="flex items-center justify-end mt-8">
             <Link
               to="/login"
-              className="text-md text-indigo-500 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-end font-bold"
+              className="text-md text-indigo-500 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-end font-semibold"
             >
-              Already have an account?
+              Already have an account.?
             </Link>
           </div>
         </div>

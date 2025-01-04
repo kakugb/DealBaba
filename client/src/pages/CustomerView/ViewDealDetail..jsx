@@ -10,6 +10,7 @@ import {
   FaTimes
 } from "react-icons/fa";
 const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
+const BASE_URL_IMAGE = import.meta.env.VITE_DEALBABA_IMAGE_URL;
 function ViewDealDetail() {
   const { id } = useParams();
   const [deal, setDeal] = useState(null);
@@ -40,7 +41,7 @@ function ViewDealDetail() {
           const userid= user?.id;
           console.log(`${BASE_URL}/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`);
 
-console.log(userid ,id)
+
         const response = await axios.get(
           `${BASE_URL}/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`
         );
@@ -65,7 +66,7 @@ console.log(userid ,id)
         dealId,
         userId
       });
-console.log(response)
+
       if (response.status === 201) {
         alert("Discount request sent successfully!");
       } else {
@@ -132,7 +133,7 @@ console.log(response)
   };
 
   return (
-    <div className=" md:h-screen bg-rose-700">
+    <div className="md:h-screen bg-rose-700">
       <h1 className="w-full  text-white text-4xl font-bold text-center py-5 mt-16 font-mono">
         Deal Detail Page
       </h1>
@@ -152,7 +153,7 @@ console.log(response)
           {/* Image Section */}
           <div className="h-52 bg-gray-200 flex items-center justify-center rounded-t-xl">
             <img
-              src={deal.image}
+              src={`${BASE_URL_IMAGE}uploads/${deal.image}`}
               alt={deal.dealName}
               className="w-full h-52 object-cover rounded-t-xl"
             />

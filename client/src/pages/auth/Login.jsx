@@ -98,9 +98,9 @@ function Login() {
           <div className="flex items-center justify-end mb-4">
             <Link
               to="/register"
-              className="text-md text-indigo-500 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-end font-bold"
+              className="text-md text-indigo-500 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-end font-semibold"
             >
-              Create Account
+              Create Account.?
             </Link>
           </div>
           <button

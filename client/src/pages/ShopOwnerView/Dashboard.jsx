@@ -100,7 +100,7 @@ function Dashboard() {
 
   return (
     <div className="h-screen pt-28 bg-rose-700">
-      <h2 className="text-4xl font-bold text-white text-center mb-10">
+      <h2 className="text-4xl font-bold text-white text-center mb-10 uppercase">
         Discount Requests Dashboard
       </h2>
 
