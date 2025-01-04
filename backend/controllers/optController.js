@@ -158,7 +158,7 @@ exports.verifyOtps = async (req, res) => {
       if (user.isVerified) {
         // Move user to the active Users table
         const createdUser = await User.create({
-          userId: user.userId,
+          
           name: user.name,
           email: user.email,
           password: user.password,  // Assuming the password is already hashed

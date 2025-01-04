@@ -3,6 +3,10 @@ const cloudinary = require('../config/cloudinary.js');
 const DiscountRequest = require('../models/discountRequest.js')
 const User = require('../models/userModel.js')
 const { Op } = require('sequelize');
+const upload = require('../config/multer.js')
+const fs = require('fs').promises;
+const path = require('path');
+
 
 exports.addDeal = async (req, res) => {
   try {
@@ -12,16 +16,12 @@ exports.addDeal = async (req, res) => {
       return res.status(400).json({ message: 'Image is required' });
     }
 
- 
-    const result = await cloudinary.uploader.upload(req.file.path);
-
-    
-    const newDeal = await Deal.create({  
+    const newDeal = await Deal.create({
       userId,
       shopName,
       dealName,
       discount,
-      image: result.secure_url,
+      image: req.file.filename, 
       description,
     });
 
@@ -57,7 +57,6 @@ exports.getFileById = async (req, res) => {
   }
 };
 
-
 exports.getFileByuserId = async (req, res) => {
   const { userId } = req.params; 
 
@@ -73,107 +72,116 @@ exports.getFileByuserId = async (req, res) => {
   }
 };
 
+
 exports.updateFile = async (req, res) => {
-    const { id } = req.params;
-    const { shopName, dealName, discount, description } = req.body;
-    let imageUrl;
-    let image = req.file ? req.file.path : null; 
-  
-    try {
-      const deal = await Deal.findByPk(id); 
-      if (!deal) {
-        return res.status(404).json({ message: 'Deal not found' });
-      }
-  
-     
-      const fieldsToUpdate = {};
-      let hasChanges = false;
-  
-      if (shopName && shopName !== deal.shopName) {
-        fieldsToUpdate.shopName = shopName;
-        hasChanges = true;
-      }
-  
-      if (dealName && dealName !== deal.dealName) {
-        fieldsToUpdate.dealName = dealName;
-        hasChanges = true;
-      }
-  
-      if (discount && discount !== deal.discount) {
-        fieldsToUpdate.discount = discount;
-        hasChanges = true;
-      }
-  
-      if (description && description !== deal.description) {
-        fieldsToUpdate.description = description;
-        hasChanges = true;
-      }
-  
-      if (image && image !== deal.image) {
-        if (deal.cloudinaryId) {
-          await cloudinary.uploader.destroy(deal.cloudinaryId);
-        }
+  const { id } = req.params;
+  const { shopName, dealName, discount, description } = req.body;
 
-        const uploadResult = await cloudinary.uploader.upload(image, {
-          folder: 'Dealbaba', 
-        });
-  
-        imageUrl = uploadResult.secure_url;
-        fieldsToUpdate.image = imageUrl;
-        fieldsToUpdate.cloudinaryId = uploadResult.public_id; 
-        hasChanges = true;
-      }
-  
-      if (!hasChanges) {
-        return res.status(400).json({ message: 'No changes made to the deal' });
-      }
-  
-  
-      const [updated] = await Deal.update(fieldsToUpdate, {
-        where: { id },
-      });
-  
-      if (updated === 0) {
-        return res.status(404).json({ message: 'Deal not found or no changes made' });
-      }
-  
-      const updatedDeal = await Deal.findByPk(id);
-      res.status(200).json({ message: 'Deal updated successfully', updatedDeal });
-  
-    } catch (error) {
-      console.error(error); 
-      res.status(500).json({ message: 'Error updating deal', error });
+  let image = req.file ? req.file.filename : null; 
+
+  try {
+    const deal = await Deal.findByPk(id); 
+    if (!deal) {
+      return res.status(404).json({ message: 'Deal not found' });
     }
-  };
-    
 
-  exports.deleteFile = async (req, res) => {
-    const { id } = req.params;
+    const fieldsToUpdate = {};
+    let hasChanges = false;
 
-try {
-  // Delete dependent records first (e.g., discount requests)
-  await DiscountRequest.destroy({ where: { dealId: id } });
+    if (shopName && shopName !== deal.shopName) {
+      fieldsToUpdate.shopName = shopName;
+      hasChanges = true;
+    }
 
-  // Now delete the deal
-  const deal = await Deal.findByPk(id);
-  if (!deal) {
-    return res.status(404).json({ message: "Deal not found" });
+    if (dealName && dealName !== deal.dealName) {
+      fieldsToUpdate.dealName = dealName;
+      hasChanges = true;
+    }
+
+    if (discount && discount !== deal.discount) {
+      fieldsToUpdate.discount = discount;
+      hasChanges = true;
+    }
+
+    if (description && description !== deal.description) {
+      fieldsToUpdate.description = description;
+      hasChanges = true;
+    }
+
+    // If there's an image, update it
+    if (image && image !== deal.image) {
+      // Delete old image from the server
+      const oldImagePath = path.join(__dirname, `../uploads/${deal.image}`);
+      try {
+        await fs.unlink(oldImagePath); // Ensure old image is deleted
+      } catch (err) {
+        console.error(`Error deleting old image: ${err}`);
+      }
+
+      
+      fieldsToUpdate.image = image;
+      hasChanges = true;
+    }
+
+    if (!hasChanges) {
+      return res.status(400).json({ message: 'No changes made to the deal' });
+    }
+
+    const [updated] = await Deal.update(fieldsToUpdate, { where: { id } });
+
+    if (updated === 0) {
+      return res.status(404).json({ message: 'Deal not found or no changes made' });
+    }
+
+    const updatedDeal = await Deal.findByPk(id);
+    res.status(200).json({ message: 'Deal updated successfully', updatedDeal });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating deal', error });
   }
+};
 
-  if (deal.cloudinaryId) {
-    await cloudinary.uploader.destroy(deal.cloudinaryId);
+
+
+exports.deleteFile = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+   
+    await DiscountRequest.destroy({ where: { dealId: id } });
+
+    const deal = await Deal.findByPk(id);
+    if (!deal) {
+      return res.status(404).json({ message: "Deal not found" });
+    }
+
+
+    if (deal.image) {
+      const imagePath = path.join(__dirname, `../uploads/${deal.image}`);
+      try {
+        
+        const fileExists = await fs.stat(imagePath);
+        if (fileExists) {
+          await fs.unlink(imagePath); 
+          console.log(`Image deleted: ${imagePath}`);
+        } else {
+          console.warn(`Image does not exist: ${imagePath}`);
+        }
+      } catch (err) {
+        console.error(`Error deleting image file: ${err}`);
+      }
+    }
+
+   
+    await deal.destroy();
+    res.status(200).json({ message: "Deal deleted successfully" });
+
+  } catch (error) {
+    console.error("Error deleting deal:", error);
+    res.status(500).json({ message: "Error deleting deal", error });
   }
-
-  await deal.destroy();
-  res.status(200).json({ message: "Deal deleted successfully" });
-} catch (error) {
-  console.error("Error deleting deal:", error);
-  res.status(500).json({ message: "Error deleting deal", error });
-}
-  }
-  
-
-  
+};
   
 
 
@@ -303,27 +311,24 @@ exports.approveDiscount = async (req, res) => {
 
 
 exports.getDiscountRequestByDealId = async (req, res) => {
-  const { dealId } = req.query; 
+  const { userId,dealId } = req.query; 
  
 
   try {
-   
     const discountRequest = await DiscountRequest.findOne({
-      where: { dealId },
+      where: { dealId, userId },
     });
-
-    if (!discountRequest) {
-      return res.status(404).json({ message: 'Discount request not found' });
-    }
-
-    res.json({ isApproved: discountRequest.isApproved });
+  
+    const isApproved = discountRequest ? discountRequest.isApproved : false; 
+  
+    res.json({ isApproved });
   } catch (error) {
     console.error('Error fetching discount request:', error);
     res.status(500).json({ message: 'Error fetching discount request', error });
   }
-};
+  
 
-
+}
 
 exports.DiscountVisibility = async (req, res) => {
   const { id, userId } = req.body;

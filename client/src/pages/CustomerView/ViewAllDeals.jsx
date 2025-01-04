@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { FaTag, FaStore, FaPercent } from "react-icons/fa";
+
 const BASE_URL = import.meta.env.VITE_DEALBABA_URL;
+const BASE_URL_IMAGE = import.meta.env.VITE_DEALBABA_IMAGE_URL;
 function ViewAllDeals() {
   const [deals, setDeals] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
-    
     const fetchDeals = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/deals/getAll`);
-        setDeals(response.data.deals); 
+        setDeals(response.data.deals);
       } catch (error) {
         console.error("Error fetching deals:", error);
       }
@@ -20,48 +23,70 @@ function ViewAllDeals() {
   }, []);
 
   const viewDealDetail = (id) => {
-    navigate(`/customer/viewDetail/${id}`); 
+    navigate(`/customer/viewDetail/${id}`);
   };
-  
 
   return (
-    <div className="h-screen p-24 bg-gray-100 ">
-  <h1 className="text-4xl font-bold mb-8 text-center text-rose-700 font-mono">All Deals</h1>
-
-  {/* Grid container for cards */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-    {deals.map((deal) => (
-      
-      <div
-        key={deal.id}
-        className="group relative bg-white  rounded-xl overflow-hidden transform transition-all duration-300 hover:scale-105  hover:-translate-y-2  shadow-md shadow-slate-700 "
-      >
-        {/* Image */}
-        <img
-          src={deal.image}
-          alt={deal.dealName}
-          className="w-10/12 h-48 object-cover transition-all duration-500 group-hover:opacity-90"
-        />
-
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <h3 className="text-xl font-semibold text-white mb-2">{deal.dealName}</h3>
-          <p className="text-sm text-gray-200 mb-4">{deal.shopName}</p>
-          <p className="text-lg font-bold text-yellow-400">{deal.discount}% OFF</p>
-
-          {/* View Details Button */}
-          <button
-            onClick={() => viewDealDetail(deal.id)}
-            className="mt-4 w-full px-4 py-2 bg-rose-700 text-white font-semibold rounded-lg hover:bg-rose-500 transition-colors"
+    <div className="h-full min-h-screen p-12 mt-10 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 ">
+      <h1 className="text-5xl font-extrabold text-center  bg-clip-text mb-10 text-rose-700 mt-10">
+        All Deals
+      </h1>
+ 
+      {/* Grid container */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+        {deals.map((deal) => (
+          <div
+            key={deal.id}
+            className="group relative bg-white rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl overflow-hidden"
           >
-            View Details
-          </button>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
+            {/* Image */}
+            <div className="relative h-48">
+              <img
+                src={`${BASE_URL_IMAGE}uploads/${deal.image}`}
+                alt={deal.dealName}
+                className="w-full h-full object-cover rounded-t-xl"
+              />
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
+            </div>
 
+            {/* Glass Content */}
+            <div className="p-6 bg-white backdrop-blur-md rounded-b-xl shadow-inner relative">
+              <div className="mb-4">
+                <h4 className="text-gray-600 flex items-center gap-2">
+                  <FaTag className="text-purple-500" />
+                  Deal Name
+                </h4>
+                <h3 className="text-lg font-bold text-gray-900">{deal.dealName}</h3>
+              </div>
+
+              <div className="mb-4">
+                <h4 className="text-gray-600 flex items-center gap-2">
+                  <FaStore className="text-rose-500" />
+                  Shop Name
+                </h4>
+                <p className="text-md text-gray-800">{deal.shopName}</p>
+              </div>
+
+              <div className="mb-6">
+                <h4 className="text-gray-600 flex items-center gap-2">
+                  <FaPercent className="text-yellow-500" />
+                  Discount
+                </h4>
+                <p className="text-lg font-bold text-green-600">{deal.discount}% OFF</p>
+              </div>
+
+              {/* View Details Button */}
+              <button
+                onClick={() => viewDealDetail(deal.id)}
+                className="w-full px-4 py-2 bg-rose-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                View Details
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
