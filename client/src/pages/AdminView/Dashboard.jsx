@@ -134,13 +134,13 @@ function Dashboard() {
                         </select>
                         <Link to="/admin/addUser">
                            <button className="w-[200px] h-10 bg-rose-600 font-semibold text-sm text-white hover:bg-rose-500 rounded-md md:mr-10">
-                              Add Student
+                              Add User
                            </button>
                         </Link>
                      </div>
 
                      {/* User Table */}
-                     <div className="md:w-11/12 w-full md:relative absolute overflow-x-auto shadow-md shadow-slate-700 sm:rounded-lg mt-2">
+                     <div className="md:w-11/12 w-full overflow-x-auto shadow-md shadow-slate-700 sm:rounded-lg mt-2">
                         {loading ? (
                            <p className="text-center text-blue-500 font-semibold">
                               Loading...
@@ -153,7 +153,7 @@ function Dashboard() {
                            <table className="md:w-full w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-hidden">
                               <thead className="text-md font-bold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                  <tr>
-                                    <th className="px-8 py-3">Student Name</th>
+                                    <th className="px-8 py-3">Users Name</th>
                                     <th className="px-6 py-3">Email Address</th>
                                     <th className="px-6 py-3">Phone Number</th>
                                     <th className="px-6 py-3">Gender</th>
@@ -196,7 +196,7 @@ function Dashboard() {
                      </div>
 
                      {/* Pagination */}
-                     <div className="flex justify-center mt-5 items-center space-x-4">
+                     <div className=" flex justify-center mt-5 items-center space-x-4  ">
                         <button
                            onClick={prevPage}
                            className={`px-4 py-2 border rounded-md text-sm ${

@@ -17,7 +17,7 @@ const sendEmailOtp = async (email, verificationCode, phoneNumber) => {
     from: 'info@dealbaba.com.au',
     to: email,
     subject: 'Email Verification',
-    text: `Your OTP is: ${verificationCode}. Please verify here: http://localhost:5173/otp?email=${email}&phoneNumber=${phoneNumber}`,
+    text: `Your OTP is: ${verificationCode}. Please verify here: https://dealbaba.com.au/otp?email=${email}&phoneNumber=${phoneNumber}`,
   };
 
   try {

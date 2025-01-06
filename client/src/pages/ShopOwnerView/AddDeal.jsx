@@ -69,7 +69,7 @@ function AddDeal() {
 
   return (
     <div>
-      <div className="pt-20 h-screen flex items-center justify-center bg-rose-700">
+      <div className="pt-20 max-h-full flex items-center justify-center bg-rose-700 py-10">
         {/* Bottom Buttons */}
         <div className="fixed top-20 left-4 flex justify-between px-4">
           {/* Go Back Button */}

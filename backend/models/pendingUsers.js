@@ -13,7 +13,7 @@ const PendingUser = sequelize.define('PendingUser', {
   },
   email: { 
     type: DataTypes.STRING, 
-    unique: true, 
+    unique: false, 
     allowNull: false 
   },
   password: { 
@@ -26,7 +26,7 @@ const PendingUser = sequelize.define('PendingUser', {
   },
   phoneNumber: { 
     type: DataTypes.BIGINT, 
-    unique: true, 
+    unique: false, 
     allowNull: false 
   },
   emailOtp: { 

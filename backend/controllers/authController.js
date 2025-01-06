@@ -44,6 +44,19 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: 'Email or Phone Number already exists' });
     }
 
+    const pendingUser = await User.PendingUsers({
+      where: {
+        [Sequelize.Op.or]: [
+          { email: email },
+          { phoneNumber: phoneNumber }
+        ]
+      }
+    });
+
+    if (pendingUser) {
+      return res.status(400).json({ message: 'Email or Phone Number already exists' });
+    }
+
     const emailOtp = generateOtp();
     const phoneOtp = generateOtp();
     const otpExpirationTime = new Date(Date.now() + 10 * 60 * 1000).toISOString();
