@@ -18,7 +18,7 @@ function UpdateDeal() {
   useEffect(() => {
     console.log(id);
     axios
-      .get(`${BASE_URL}/deals/getById/${id}`)  
+      .get(`${BASE_URL}/api/deals/getById/${id}`)  
       .then((response) => {
         console.log(response.data);
         setDeal(response.data.deal); 
@@ -59,7 +59,7 @@ function UpdateDeal() {
     }
 
     axios
-      .put(`${BASE_URL}/deals/update/${deal.id}`, formData)
+      .put(`${BASE_URL}/api/deals/update/${deal.id}`, formData)
       .then((response) => {
         console.log('Deal updated successfully:', response.data);
         navigate('/shopowner/dealPage')

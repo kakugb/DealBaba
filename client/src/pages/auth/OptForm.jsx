@@ -28,7 +28,7 @@ const OptForm = () => {
     try {
                
       const response = await axios.post(
-        `${BASE_URL}/auth/verified`,
+        `${BASE_URL}/api/auth/verified`,
         verificationData
       );
       setLoading(false);

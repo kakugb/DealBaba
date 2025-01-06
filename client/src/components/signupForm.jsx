@@ -24,7 +24,8 @@ const SignupForm = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${BASE_URL}/auth/signup`, formData);
+      console.log(BASE_URL);  // Check if BASE_URL is correct
+      const response = await axios.post(`${BASE_URL}/api/auth/signup`, formData);
       
       
       const userId = response.data.userId;

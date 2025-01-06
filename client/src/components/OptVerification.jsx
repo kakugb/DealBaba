@@ -8,7 +8,7 @@ const EmailVerification = ({ userId }) => {
 
   const handleVerification = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/verify`, {
+      const response = await axios.post(`${BASE_URL}/api/auth/verify`, {
         userId,
         verificationCode,
       });

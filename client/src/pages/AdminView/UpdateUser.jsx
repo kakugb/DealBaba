@@ -23,7 +23,7 @@ const UpdateUser = () => {
       try {
        
         const response = await axios.get(
-          `${BASE_URL}/users/${userId}`
+          `${BASE_URL}/api/users/${userId}`
         );
         console.log(response.data)
         setUser(response.data.user); 
@@ -47,7 +47,7 @@ const UpdateUser = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.put(`${BASE_URL}/users/${userId}`, user);
+      await axios.put(`${BASE_URL}/api/users/${userId}`, user);
       setLoading(false);
       navigate("/admin/dashboard"); 
     } catch (err) {

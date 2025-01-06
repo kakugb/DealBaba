@@ -28,7 +28,7 @@ function DealPage() {
   const fetchAll = () => {
     if (userId) {
       axios
-        .get(`${BASE_URL}/deals/dealbyUserId/${userId}`)
+        .get(`${BASE_URL}/api/deals/dealbyUserId/${userId}`)
         .then((response) => {
           setDeals(response.data.deals);
         })
@@ -46,7 +46,7 @@ function DealPage() {
 
   const deleteDeal = async (dealId) => {
     try {
-      await axios.delete(`${BASE_URL}/deals/delete/${dealId}`);
+      await axios.delete(`${BASE_URL}/api/deals/delete/${dealId}`);
       console.log(`Deal ${dealId} deleted successfully`);
   
       
@@ -82,7 +82,7 @@ function DealPage() {
     });
 
     axios
-      .put(`${BASE_URL}/deals/update/${currentDeal.id}`, formData, {
+      .put(`${BASE_URL}/api/deals/update/${currentDeal.id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" }
       })
       .then((response) => {

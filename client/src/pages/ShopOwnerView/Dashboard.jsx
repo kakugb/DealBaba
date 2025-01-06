@@ -29,7 +29,7 @@ function Dashboard() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/deals/discountRequests?userId=${userId}`
+          `${BASE_URL}/api/deals/discountRequests?userId=${userId}`
         );
 
         if (response.data && response.data.discountRequests) {
@@ -48,7 +48,7 @@ function Dashboard() {
   const handleAction = async (id, shopOwnerId) => {
     try {
       const response = await axios.put(
-        `${BASE_URL}/deals/approvedDiscount/${id}`,
+        `${BASE_URL}/api/deals/approvedDiscount/${id}`,
         { shopOwnerId }
       );
 
@@ -58,7 +58,7 @@ function Dashboard() {
         const fetchDiscountRequests = async () => {
           try {
             const response = await axios.get(
-              `${BASE_URL}/deals/discountRequests?userId=${userId}`
+              `${BASE_URL}/api/deals/discountRequests?userId=${userId}`
             );
             if (response.data && response.data.discountRequests) {
               setDiscountRequests(response.data.discountRequests);

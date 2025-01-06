@@ -27,7 +27,7 @@ function Register() {
     try {
       // Ensure the API URL is correct
       const response = await axios.post(
-        `${BASE_URL}/auth/signup`,
+        `${BASE_URL}/api/auth/signup`,
         formData,
         {
           headers: {

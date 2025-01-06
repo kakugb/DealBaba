@@ -31,7 +31,7 @@ const CreateUser = () => {
     setErrorMessage("");
 
     try {
-      const response = await axios.post(`${BASE_URL}/users`, formData);
+      const response = await axios.post(`${BASE_URL}/api/users`, formData);
       setSuccessMessage("User created successfully!");
       setFormData({
         name: "",

@@ -12,7 +12,7 @@ function ViewAllDeals() {
   useEffect(() => {
     const fetchDeals = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/deals/getAll`);
+        const response = await axios.get(`${BASE_URL}/api/deals/getAll`);
         setDeals(response.data.deals);
       } catch (error) {
         console.error("Error fetching deals:", error);

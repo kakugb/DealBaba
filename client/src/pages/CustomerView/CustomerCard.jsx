@@ -18,7 +18,7 @@ function CustomerCard() {
           console.log("No token found");
           return;
         }
-        const response = await axios.get(`${BASE_URL}/auth/user`, {
+        const response = await axios.get(`${BASE_URL}/api/auth/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

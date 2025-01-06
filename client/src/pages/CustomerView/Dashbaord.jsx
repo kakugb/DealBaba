@@ -73,7 +73,7 @@ const Dashboard = () => {
       }
 
       const response = await axios.post(
-        `${BASE_URL}/auth/verify-user`,
+        `${BASE_URL}/api/auth/verify-user`,
         { name: parsedData.user, email: parsedData.email },
         {
           headers: {
@@ -132,7 +132,7 @@ const Dashboard = () => {
       console.log("QR Data being sent:", qrData);
 
       const response = await axios.post(
-       `${BASE_URL}/qr-code/send-qrcode`,
+       `${BASE_URL}/api/qr-code/send-qrcode`,
         { userId: userData.id, qrData },
         { headers }
       );

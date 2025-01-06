@@ -33,7 +33,7 @@ function Dashboard() {
 
    const fetchUsers = async () => {
       try {
-         const response = await axios.get(`${BASE_URL}/users/getAllUser`);
+         const response = await axios.get(`${BASE_URL}/api/users/getAllUser`);
          let users = response.data.users;
          if (selectedRole) {
             users = users.filter((user) => user.role === selectedRole);
@@ -54,7 +54,7 @@ function Dashboard() {
    
    const deleteUser = async (userId) => {
       try {
-         await axios.delete(`${BASE_URL}/users/${userId}`);
+         await axios.delete(`${BASE_URL}/api/users/${userId}`);
          setFilteredUsers((prevUsers) =>
             prevUsers.filter((user) => user.userId !== userId)
          );
@@ -66,7 +66,7 @@ function Dashboard() {
 
    const handleEditClick = async (userId) => {
       try {
-         const response = await axios.get(`${BASE_URL}/users/${userId}`);
+         const response = await axios.get(`${BASE_URL}/api/users/${userId}`);
          setUser(response.data.user); // Set selected user data
          setUserId(userId)
          setShowModal(true); // Show the modal

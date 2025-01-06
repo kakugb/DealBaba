@@ -25,7 +25,7 @@ function ViewDealDetail() {
 
     const fetchDeal = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/deals/deal/${id}`);
+        const response = await axios.get(`${BASE_URL}/api/deals/deal/${id}`);
         setDeal(response.data.deal);
       } catch (error) {
         console.error("Error fetching deal details:", error);
@@ -39,11 +39,11 @@ function ViewDealDetail() {
         const userJson = localStorage.getItem("user");
           const user = JSON.parse(userJson); 
           const userid= user?.id;
-          console.log(`${BASE_URL}/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`);
+          console.log(`${BASE_URL}/api/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`);
 
 
         const response = await axios.get(
-          `${BASE_URL}/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`
+          `${BASE_URL}/api/deals/getDiscountDealStatus?userId=${userid}&dealId=${id}`
         );
       
         setIsDiscountApproved(response.data.isApproved);
@@ -62,7 +62,7 @@ function ViewDealDetail() {
 
   const handleRequestDiscount = async (dealId) => {
     try {
-      const response = await axios.post(`${BASE_URL}/deals/requestDiscount`, {
+      const response = await axios.post(`${BASE_URL}/api/deals/requestDiscount`, {
         dealId,
         userId
       });
@@ -92,7 +92,7 @@ function ViewDealDetail() {
     return <div>Error: Deal not found!</div>;
   }
   const handleShare = (platform) => {
-    const shareLink = `${BASE_URL}/auth/login`;
+    const shareLink = `${BASE_URL}/api/auth/login`;
 
     switch (platform) {
       case "whatsapp":
