@@ -43,7 +43,7 @@ export default function Header() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
     <Disclosure as="nav" className="bg-gray-100 border-opacity-60 border-slate-700 fixed w-full top-0 left-0 z-30 shadow-lg">
       <div className="mx-auto px-2 sm:px-6 lg:px-8">
@@ -92,17 +92,23 @@ export default function Header() {
             </div>
             {/* Profile dropdown */}
             <div className="relative ml-6" ref={dropdownRef}>
-              <button
-                onClick={toggleDropdown}
-                className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            <div
+                className="w-full flex text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 px-1 bg-white rounded-md shadow shadow-md"
+                
               >
-                <span className="sr-only">Open user menu</span>
-                <img
-                  alt=""
-                  src=""
-                  className="size-8 rounded-full"
-                />
-              </button>
+                <p className='text-black text-sm sm:text-lg py-2 px-1 font-semibold hidden sm:flex'>
+                Hello,
+                </p>
+                <p className='text-black text-sm sm:text-lg py-2 px-1 font-semibold '>
+                {user.name}
+                </p>
+                <button
+                 className='pt-2 px-1 text-black'
+                 onClick={toggleDropdown}
+                 >
+                {dropdownOpen ? '▲' : '▼'}
+                </button>
+              </div>
               {dropdownOpen && (
                 <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
                   <button

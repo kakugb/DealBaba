@@ -11,7 +11,7 @@ const CreateUser = () => {
     password: "",
     role: "",
     phoneNumber: "",
-    gender: "",
+    gender: ""
   });
 
   const [successMessage, setSuccessMessage] = useState("");
@@ -21,7 +21,7 @@ const CreateUser = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value
     }));
   };
 
@@ -39,14 +39,14 @@ const CreateUser = () => {
         password: "",
         role: "",
         phoneNumber: "",
-        gender: "",
+        gender: ""
       });
       navigate("/admin/dashboard");
     } catch (error) {
       console.error("Error creating user:", error);
       setErrorMessage(
-        error.response?.data?.message || 
-        "An unexpected error occurred. Please try again."
+        error.response?.data?.message ||
+          "An unexpected error occurred. Please try again."
       );
     }
   };
@@ -62,12 +62,18 @@ const CreateUser = () => {
         </button>
       </div>
       <div className="w-full max-w-2xl bg-white rounded-lg shadow-md p-8 shadow-slate-700">
-        <h2 className="text-2xl font-bold text-center text-rose-800 mb-6">Create User</h2>
+        <h2 className="text-2xl font-bold text-center text-rose-800 mb-6 uppercase">
+          Create User
+        </h2>
         {successMessage && (
-          <p className="text-green-600 text-center font-medium mb-4">{successMessage}</p>
+          <p className="text-green-600 text-center font-medium mb-4">
+            {successMessage}
+          </p>
         )}
         {errorMessage && (
-          <p className="text-red-600 text-center font-medium mb-4">{errorMessage}</p>
+          <p className="text-red-600 text-center font-medium mb-4">
+            {errorMessage}
+          </p>
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -100,7 +106,9 @@ const CreateUser = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="mb-4">
-              <label className="block text-black font-medium mb-1">Password</label>
+              <label className="block text-black font-medium mb-1">
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
@@ -113,7 +121,9 @@ const CreateUser = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-black font-medium mb-1">Phone Number</label>
+              <label className="block text-black font-medium mb-1">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 name="phoneNumber"
@@ -123,12 +133,17 @@ const CreateUser = () => {
                 className="w-full px-4 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
+              <p className="text-sm text-gray-500 mt-1">
+                Please enter the country code before the phone number.
+              </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="mb-4">
-              <label className="block text-black font-medium mb-1">Gender</label>
+              <label className="block text-black font-medium mb-1">
+                Gender
+              </label>
               <select
                 name="gender"
                 value={formData.gender}
