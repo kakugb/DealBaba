@@ -6,34 +6,101 @@ const { Op } = require('sequelize');
 const upload = require('../config/multer.js')
 const fs = require('fs').promises;
 const path = require('path');
+const ftp = require('basic-ftp');
 
+const ftpConfig = {
+  host: '92.112.189.84', // Replace with your Hostinger FTP server address
+  user: 'u500774472.dealbaba.com.au', // FTP username
+  password: 'Amy@2023@2023', // FTP password
+  secure: false, // Set to true if you want to use FTPS
+  port: 21 // Default FTP port
+};
 
 exports.addDeal = async (req, res) => {
   try {
     const { shopName, dealName, discount, description, userId } = req.body;
-
+    
     if (!req.file) {
       return res.status(400).json({ message: 'Image is required' });
     }
 
-    const newDeal = await Deal.create({
-      userId,
-      shopName,
-      dealName,
-      discount,
-      image: req.file.filename, 
-      description,
-    });
+    const imageFile = req.file;
+    const imageName = Date.now() + '-' + imageFile.originalname; // Create unique image name
+    
+    // Initialize FTP client
+    const client = new ftp.Client();
 
-    res.status(201).json({
-      message: 'Deal added successfully!',
-      deal: newDeal,
-    });
+    try {
+      await client.access(ftpConfig);
+
+      // Upload the image to the "images" folder on your Hostinger server
+      await client.uploadFrom(imageFile.path, `/public_html/images/${imageName}`);
+
+      // Image URL (Assuming your website's base URL)
+      const imageUrl = `https://dealbaba.com.au/images/${imageName}`;
+
+      // Create a new deal entry with image URL
+      const newDeal = await Deal.create({
+        userId,
+        shopName,
+        dealName,
+        discount,
+        image: imageUrl, // Save the image URL to DB
+        description,
+      });
+
+      // Remove the local file after uploading it to FTP
+      fs.unlink(imageFile.path, (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+        } else {
+          console.log('Temporary file deleted successfully');
+        }
+      });
+
+      res.status(201).json({
+        message: 'Deal added successfully!',
+        deal: newDeal,
+      });
+    } catch (error) {
+      console.error('FTP upload error:', error);
+      res.status(500).json({ message: 'Failed to upload image to FTP', error });
+    } finally {
+      client.close();
+    }
+
   } catch (error) {
     console.error('Error adding deal:', error);
     res.status(500).json({ message: 'Failed to add deal', error });
   }
 };
+
+// exports.addDeal = async (req, res) => {
+//   try {
+//     const { shopName, dealName, discount, description, userId } = req.body;
+
+//     if (!req.file) {
+//       return res.status(400).json({ message: 'Image is required' });
+//     }
+
+//     const newDeal = await Deal.create({
+//       userId,
+//       shopName,
+//       dealName,
+//       discount,
+//       image: req.file.filename, 
+//       description,
+//     });
+
+//     res.status(201).json({
+//       message: 'Deal added successfully!',
+//       deal: newDeal,
+//     });
+//   } catch (error) {
+//     console.error('Error adding deal:', error);
+//     res.status(500).json({ message: 'Failed to add deal', error });
+//   }
+// };
 
 exports.getAllFiles = async (req, res) => {
   try {

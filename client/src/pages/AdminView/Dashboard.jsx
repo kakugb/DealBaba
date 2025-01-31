@@ -81,7 +81,7 @@ function Dashboard() {
     setLoading(true);
     console.log(user)
     try {
-      await axios.put(`http://localhost:5000/api/users/${userid}`, user);
+      await axios.put(`${BASE_URL}/api/users/${userid}`, user);
       fetchUsers()
      setShowModal(false)
       

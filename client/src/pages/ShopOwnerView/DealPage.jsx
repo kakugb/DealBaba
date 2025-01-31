@@ -122,7 +122,7 @@ console.log(deals)
               {/* Image Section */}
               <div className="h-52 w-full bg-cover bg-center border border-gray-200 rounded-t-lg overflow-hidden">
                 <img
-                  src={`${BASE_URL_IMAGE}uploads/${deal.image}`}
+                  src={deal.image}
                   alt="deal-image"
                   className="w-full h-full object-cover rounded-t-xl"
                 />

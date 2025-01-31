@@ -42,7 +42,7 @@ function ViewAllDeals() {
             {/* Image */}
             <div className="relative h-48">
               <img
-                src={`${BASE_URL_IMAGE}uploads/${deal.image}`}
+                src={deal.image}
                 alt={deal.dealName}
                 className="w-full h-full object-cover rounded-t-xl"
               />
